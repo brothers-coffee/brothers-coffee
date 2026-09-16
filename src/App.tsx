@@ -17,6 +17,9 @@ import {
 } from 'lucide-react'
 import './App.css'
 
+const asset = (path: string) =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+
 const navItems = [
   ['Origen', '#origen'],
   ['Cafés', '#cafes'],
@@ -32,7 +35,7 @@ const coffeeTypes = [
     description:
       'Lotes y microlotes de especialidad preparados según las necesidades de cada comprador, con información clara desde el origen.',
     details: ['Trazabilidad por lote', 'Muestras disponibles', 'Preparación para exportación'],
-    image: '/images/drying.webp',
+    image: asset('/images/drying.webp'),
   },
   {
     number: '02',
@@ -41,7 +44,7 @@ const coffeeTypes = [
     description:
       'El carácter de Marcala expresado en perfiles de tueste pensados para una taza dulce, limpia y memorable.',
     details: ['Tueste por perfil', 'Presentaciones a medida', 'Consistencia en cada entrega'],
-    image: '/images/hero.webp',
+    image: asset('/images/hero.webp'),
   },
 ]
 
@@ -111,7 +114,7 @@ function App() {
         <section className="hero-section" id="inicio">
           <img
             className="hero-image"
-            src="/images/hero.webp"
+            src={asset('/images/hero.webp')}
             alt="Productora supervisando cerezas de café durante el secado en Marcala"
           />
           <div className="hero-shade" />
@@ -156,7 +159,7 @@ function App() {
 
         <section className="origin-gallery section">
           <div className="gallery-main">
-            <img src="/images/origin.webp" alt="Productora y comprador entre plantas de café" loading="lazy" />
+            <img src={asset('/images/origin.webp')} alt="Productora y comprador entre plantas de café" loading="lazy" />
             <span className="image-caption">Relaciones que comienzan en la finca</span>
           </div>
           <div className="gallery-secondary">
@@ -164,7 +167,7 @@ function App() {
               <Mountain size={28} strokeWidth={1.5} />
               <p><strong>Marcala</strong><span>La Paz · Honduras</span></p>
             </div>
-            <img src="/images/drying.webp" alt="Productor revisando café en camas de secado" loading="lazy" />
+            <img src={asset('/images/drying.webp')} alt="Productor revisando café en camas de secado" loading="lazy" />
           </div>
         </section>
 
@@ -227,7 +230,7 @@ function App() {
         </section>
 
         <section className="manifesto-section" id="impacto">
-          <img src="/images/community.webp" alt="Grupo de mujeres de comunidades cafetaleras de Marcala" loading="lazy" />
+          <img src={asset('/images/community.webp')} alt="Grupo de mujeres de comunidades cafetaleras de Marcala" loading="lazy" />
           <div className="manifesto-shade" />
           <div className="manifesto-content">
             <Quote size={38} strokeWidth={1} />
