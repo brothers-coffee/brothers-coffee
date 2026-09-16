@@ -28,28 +28,9 @@
 }
 
 .brand-mark {
-  position: relative;
-  width: 32px;
-  height: 38px;
-}
-
-.brand-mark span {
-  position: absolute;
-  top: 4px;
-  width: 16px;
-  height: 29px;
-  border: 1.5px solid currentColor;
-  border-radius: 80% 20% 70% 30% / 70% 40% 60% 30%;
-  transform: rotate(-29deg);
-}
-
-.brand-mark span:first-child {
-  left: 3px;
-}
-
-.brand-mark span:last-child {
-  right: 1px;
-  transform: rotate(29deg) scaleX(-1);
+  flex: none;
+  width: 34px;
+  height: auto;
 }
 
 .brand-name {

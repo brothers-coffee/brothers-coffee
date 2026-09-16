@@ -20,6 +20,22 @@ import './App.css'
 const asset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
+// Isotipo: los dos granos gemelos que crecen dentro de una misma cereza de café.
+const beanOutline =
+  'M 0 -13.5 C 4.3 -12 6.6 -7.3 6.6 -2.1 C 6.6 4.2 4.1 10.2 -0.5 13.5 C -4.5 10.8 -6.6 5.2 -6.6 -0.4 C -6.6 -6.4 -4.1 -12.1 0 -13.5 Z'
+
+function BrandMark() {
+  return (
+    <svg className="brand-mark" viewBox="0 0 36 33" fill="none" aria-hidden="true" focusable="false">
+      {['translate(13.25 16.5) rotate(-25)', 'translate(22.75 16.5) rotate(25) scale(-1 1)'].map(
+        (transform) => (
+          <path key={transform} transform={transform} d={beanOutline} stroke="currentColor" strokeWidth="1.5" />
+        ),
+      )}
+    </svg>
+  )
+}
+
 const navItems = [
   ['Origen', '#origen'],
   ['Cafés', '#cafes'],
@@ -75,7 +91,7 @@ function App() {
     <div className="site-shell">
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Brothers Coffee, inicio">
-          <span className="brand-mark" aria-hidden="true"><span /><span /></span>
+          <BrandMark />
           <span className="brand-name">Brothers <strong>Coffee</strong></span>
         </a>
 
@@ -293,7 +309,7 @@ function App() {
       <footer>
         <div className="footer-brand">
           <a className="brand brand-light" href="#inicio">
-            <span className="brand-mark" aria-hidden="true"><span /><span /></span>
+            <BrandMark />
             <span className="brand-name">Brothers <strong>Coffee</strong></span>
           </a>
           <p>Café de especialidad desde Marcala, Honduras.</p>
