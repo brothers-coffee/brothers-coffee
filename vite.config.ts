@@ -7,6 +7,9 @@ export default defineConfig({
   server: {
     host: true,
     allowedHosts: true,
+    watch: {
+      usePolling: process.env.VITE_USE_POLLING === '1',
+    },
   },
   preview: {
     host: true,
