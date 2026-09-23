@@ -90,7 +90,7 @@ function App() {
     <div className="site-shell">
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Brothers Coffee, inicio">
-          <img className="brand-logo" src={asset('/images/logos/cobre.png')} alt="" />
+          <img className="brand-logo" src={asset('/images/logos/negativo.png')} alt="" />
         </a>
 
         <nav className="desktop-nav" aria-label="Navegación principal">
