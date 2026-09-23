@@ -16,6 +16,7 @@ import {
   X,
 } from 'lucide-react'
 import './App.css'
+import products from './data/products.json'
 
 const asset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
@@ -23,13 +24,26 @@ const asset = (path: string) =>
 const navItems = [
   ['Origen', '#origen'],
   ['Cafés', '#cafes'],
+  ['Lotes', '#lotes'],
   ['Proceso', '#proceso'],
   ['Impacto', '#impacto'],
 ]
 
+const lotStatusLabel = {
+  disponible: 'Disponible',
+  consultar: 'Consultar',
+  agotado: 'Agotado',
+} as const
+
+const lotOrder = { disponible: 0, consultar: 1, agotado: 2 } as const
+
+const lots = [...products].sort(
+  (a, b) =>
+    lotOrder[a.status as keyof typeof lotOrder] - lotOrder[b.status as keyof typeof lotOrder],
+)
+
 const coffeeTypes = [
   {
-    number: '01',
     title: 'Café verde',
     eyebrow: 'Para tostadores e importadores',
     description:
@@ -39,7 +53,6 @@ const coffeeTypes = [
     imageAlt: 'Productor acomodando sacos de café para su traslado',
   },
   {
-    number: '02',
     title: 'Café tostado',
     eyebrow: 'Para marcas y negocios',
     description:
@@ -139,7 +152,7 @@ function App() {
         </section>
 
         <section className="origin-intro section" id="origen">
-          <div className="section-label"><span>01</span><p>Nuestro origen</p></div>
+          <div className="section-label"><p>Nuestro origen</p></div>
           <div className="origin-copy">
             <p className="overline">Entre montañas, nace algo excepcional</p>
             <h2>Un café que lleva<br /><em>Marcala al mundo.</em></h2>
@@ -184,7 +197,7 @@ function App() {
         </section>
 
         <section className="coffee-section section" id="cafes">
-          <div className="section-label section-label-light"><span>02</span><p>Nuestra oferta</p></div>
+          <div className="section-label section-label-light"><p>Nuestra oferta</p></div>
           <div className="coffee-heading">
             <p className="overline">Calidad que se puede rastrear</p>
             <h2>Del grano verde<br /><em>a la taza.</em></h2>
@@ -199,7 +212,6 @@ function App() {
               <article className="coffee-card" key={coffee.title}>
                 <div className="card-image-wrap">
                   <img src={coffee.image} alt={coffee.imageAlt} loading="lazy" />
-                  <span className="card-number">{coffee.number}</span>
                 </div>
                 <div className="card-copy">
                   <p className="card-eyebrow">{coffee.eyebrow}</p>
@@ -217,8 +229,45 @@ function App() {
           </div>
         </section>
 
+        <section className="lots-section section" id="lotes">
+          <div className="section-label"><p>Lotes</p></div>
+          <div className="lots-heading">
+            <p className="overline">Café verde de Marcala</p>
+            <h2>Cada lote tiene<br /><em>nombre y finca.</em></h2>
+            <p>
+              Origen, proceso y notas de taza. La disponibilidad cambia con la cosecha
+              y se confirma al pedir una muestra.
+            </p>
+          </div>
+          <div className="lot-grid">
+            {lots.map((lot) => (
+              <article className="lot-card" key={lot.id}>
+                <div className="lot-image">
+                  <img src={asset(lot.image)} alt={lot.imageAlt} loading="lazy" />
+                  <span className={`lot-status is-${lot.status}`}>{lotStatusLabel[lot.status as keyof typeof lotStatusLabel]}</span>
+                </div>
+                <div className="lot-copy">
+                  <p className="card-eyebrow">{lot.process}</p>
+                  <h3>{lot.name}</h3>
+                  <p className="lot-meta">
+                    {[lot.region, lot.variety, lot.altitude].filter(Boolean).join(' · ')}
+                  </p>
+                  <p>{lot.notes}</p>
+                  <p className="lot-summary">{lot.summary}</p>
+                  <div className="lot-facts">
+                    {lot.producer && <span>{lot.producer}</span>}
+                    {lot.score && <span>Puntaje {lot.score}</span>}
+                    {lot.volume && <span>{lot.volume}</span>}
+                  </div>
+                  <a href="#contacto">Consultar este lote <ArrowRight size={16} /></a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="process-section section" id="proceso">
-          <div className="section-label"><span>03</span><p>Cómo trabajamos</p></div>
+          <div className="section-label"><p>Cómo trabajamos</p></div>
           <div className="process-content">
             <div className="process-heading">
               <p className="overline">De la finca al destino</p>
@@ -226,15 +275,15 @@ function App() {
             </div>
             <div className="process-list">
               <article>
-                <span>01</span><Sprout />
+                <Sprout />
                 <div><h3>Selección en origen</h3><p>Identificamos cafés con perfiles claros y potencial para cada mercado.</p></div>
               </article>
               <article>
-                <span>02</span><Coffee />
+                <Coffee />
                 <div><h3>Control de calidad</h3><p>Evaluamos cada lote para proteger su consistencia y expresión en taza.</p></div>
               </article>
               <article>
-                <span>03</span><PackageCheck />
+                <PackageCheck />
                 <div><h3>Preparación y exportación</h3><p>Coordinamos la preparación del café según el destino y las necesidades del comprador.</p></div>
               </article>
             </div>
@@ -271,7 +320,7 @@ function App() {
         </section>
 
         <section className="values-section section">
-          <div className="section-label"><span>04</span><p>Lo que nos guía</p></div>
+          <div className="section-label"><p>Lo que nos guía</p></div>
           <div className="values-grid">
             <article><Globe2 /><h3>Origen visible</h3><p>Cada café comienza con una finca, una familia y una historia que merece ser conocida.</p></article>
             <article><Leaf /><h3>Calidad responsable</h3><p>Buscamos calidad con una mirada de largo plazo sobre la tierra y las comunidades.</p></article>
