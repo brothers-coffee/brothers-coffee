@@ -1,0 +1,19 @@
+{
+  "name": "Brothers Coffee",
+  "short_name": "Brothers Coffee",
+  "icons": [
+    {
+      "src": "/brothers-coffee-favicon/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/brothers-coffee-favicon/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0d251b",
+  "background_color": "#0d251b",
+  "display": "standalone"
+}

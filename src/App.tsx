@@ -20,22 +20,6 @@ import './App.css'
 const asset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
-// Isotipo: los dos granos gemelos que crecen dentro de una misma cereza de café.
-const beanOutline =
-  'M 0 -13.5 C 4.3 -12 6.6 -7.3 6.6 -2.1 C 6.6 4.2 4.1 10.2 -0.5 13.5 C -4.5 10.8 -6.6 5.2 -6.6 -0.4 C -6.6 -6.4 -4.1 -12.1 0 -13.5 Z'
-
-function BrandMark() {
-  return (
-    <svg className="brand-mark" viewBox="0 0 36 33" fill="none" aria-hidden="true" focusable="false">
-      {['translate(13.25 16.5) rotate(-25)', 'translate(22.75 16.5) rotate(25) scale(-1 1)'].map(
-        (transform) => (
-          <path key={transform} transform={transform} d={beanOutline} stroke="currentColor" strokeWidth="1.5" />
-        ),
-      )}
-    </svg>
-  )
-}
-
 const navItems = [
   ['Origen', '#origen'],
   ['Cafés', '#cafes'],
@@ -51,7 +35,8 @@ const coffeeTypes = [
     description:
       'Lotes y microlotes de especialidad preparados según las necesidades de cada comprador, con información clara desde el origen.',
     details: ['Trazabilidad por lote', 'Muestras disponibles', 'Preparación para exportación'],
-    image: asset('/images/drying.webp'),
+    image: asset('/images/green-coffee.jpg'),
+    imageAlt: 'Productor acomodando sacos de café para su traslado',
   },
   {
     number: '02',
@@ -60,7 +45,8 @@ const coffeeTypes = [
     description:
       'El carácter de Marcala expresado en perfiles de tueste pensados para una taza dulce, limpia y memorable.',
     details: ['Tueste por perfil', 'Presentaciones a medida', 'Consistencia en cada entrega'],
-    image: asset('/images/hero.webp'),
+    image: asset('/images/cerezas.jpg'),
+    imageAlt: 'Cerezas de café madurando en la mata',
   },
 ]
 
@@ -91,8 +77,7 @@ function App() {
     <div className="site-shell">
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Brothers Coffee, inicio">
-          <BrandMark />
-          <span className="brand-name">Brothers <strong>Coffee</strong></span>
+          <img className="brand-logo" src={asset('/images/logos/cobre.png')} alt="" />
         </a>
 
         <nav className="desktop-nav" aria-label="Navegación principal">
@@ -130,8 +115,8 @@ function App() {
         <section className="hero-section" id="inicio">
           <img
             className="hero-image"
-            src={asset('/images/hero.webp')}
-            alt="Productora supervisando cerezas de café durante el secado en Marcala"
+            src={asset('/images/hero.jpg')}
+            alt="Productora con cerezas de café en el patio de secado, con las montañas de Marcala al fondo"
           />
           <div className="hero-shade" />
           <div className="hero-content">
@@ -175,15 +160,26 @@ function App() {
 
         <section className="origin-gallery section">
           <div className="gallery-main">
-            <img src={asset('/images/origin.webp')} alt="Productora y comprador entre plantas de café" loading="lazy" />
-            <span className="image-caption">Relaciones que comienzan en la finca</span>
+            <img src={asset('/images/drying.jpg')} alt="Productora entre cerezas y pergamino secándose al sol frente a la montaña" loading="lazy" />
+            <span className="image-caption">El secado, frente a la montaña</span>
           </div>
           <div className="gallery-secondary">
             <div className="gallery-stat">
               <Mountain size={28} strokeWidth={1.5} />
               <p><strong>Marcala</strong><span>La Paz · Honduras</span></p>
             </div>
-            <img src={asset('/images/drying.webp')} alt="Productor revisando café en camas de secado" loading="lazy" />
+            <img src={asset('/images/origin.jpg')} alt="Equipo de la finca entre plantas de café en Marcala" loading="lazy" />
+          </div>
+        </section>
+
+        <section className="finca-mosaic" aria-label="La finca">
+          <figure className="finca-main">
+            <img src={asset('/images/patio.jpg')} alt="Patios de secado con café cereza y pergamino bajo un cielo de nubes" loading="lazy" />
+            <span className="image-caption">Patios de secado en la finca</span>
+          </figure>
+          <div className="finca-side">
+            <img src={asset('/images/amanecer.jpg')} alt="Amanecer con neblina sobre las montañas de la finca" loading="lazy" />
+            <img src={asset('/images/conversacion.jpg')} alt="Productores conversando junto a cerezas de café en secado" loading="lazy" />
           </div>
         </section>
 
@@ -202,7 +198,7 @@ function App() {
             {coffeeTypes.map((coffee) => (
               <article className="coffee-card" key={coffee.title}>
                 <div className="card-image-wrap">
-                  <img src={coffee.image} alt="" loading="lazy" />
+                  <img src={coffee.image} alt={coffee.imageAlt} loading="lazy" />
                   <span className="card-number">{coffee.number}</span>
                 </div>
                 <div className="card-copy">
@@ -246,7 +242,23 @@ function App() {
         </section>
 
         <section className="manifesto-section" id="impacto">
-          <img src={asset('/images/community.webp')} alt="Grupo de mujeres de comunidades cafetaleras de Marcala" loading="lazy" />
+          <img
+            className="manifesto-media manifesto-fallback"
+            src={asset('/images/amanecer.jpg')}
+            alt="Amanecer con neblina sobre las montañas de la finca"
+          />
+          <video
+            className="manifesto-media"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={asset('/images/amanecer.jpg')}
+            aria-hidden="true"
+          >
+            <source src={asset('/videos/finca.mp4')} type="video/mp4" />
+          </video>
           <div className="manifesto-shade" />
           <div className="manifesto-content">
             <Quote size={38} strokeWidth={1} />
@@ -308,9 +320,8 @@ function App() {
 
       <footer>
         <div className="footer-brand">
-          <a className="brand brand-light" href="#inicio">
-            <BrandMark />
-            <span className="brand-name">Brothers <strong>Coffee</strong></span>
+          <a className="brand" href="#inicio" aria-label="Brothers Coffee, inicio">
+            <img className="brand-logo brand-logo-footer" src={asset('/images/logos/negativo.png')} alt="" />
           </a>
           <p>Café de especialidad desde Marcala, Honduras.</p>
         </div>

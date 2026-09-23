@@ -23,30 +23,18 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   width: max-content;
 }
 
-.brand-mark {
-  flex: none;
-  width: 34px;
-  height: auto;
-}
-
-.brand-name {
-  font-size: 17px;
-  line-height: 1;
-  letter-spacing: 0.02em;
-}
-
-.brand-name strong {
+.brand-logo {
   display: block;
-  margin-top: 4px;
-  font-family: 'Italiana', serif;
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  height: 48px;
+  width: auto;
+  mix-blend-mode: lighten;
+}
+
+.brand-logo-footer {
+  height: 68px;
 }
 
 .desktop-nav {
@@ -98,7 +86,7 @@
 
 .hero-image {
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 34%;
   animation: heroScale 1.5s ease-out both;
 }
 
@@ -302,6 +290,7 @@ h2 {
   grid-template-columns: 1.5fr 0.8fr;
   gap: 22px;
   padding-top: 0;
+  padding-bottom: 22px;
   background: var(--paper);
 }
 
@@ -319,7 +308,7 @@ h2 {
 }
 
 .gallery-main img {
-  object-position: center 30%;
+  object-position: center 46%;
 }
 
 .image-caption {
@@ -340,7 +329,7 @@ h2 {
 }
 
 .gallery-secondary > img {
-  object-position: center 32%;
+  object-position: center 38%;
 }
 
 .gallery-stat {
@@ -354,6 +343,45 @@ h2 {
 
 .gallery-stat p {
   margin: 0;
+}
+
+.finca-mosaic {
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 22px;
+  padding: 0 8vw 130px;
+  background: var(--paper);
+}
+
+.finca-main {
+  position: relative;
+  height: 680px;
+  overflow: hidden;
+  margin: 0;
+}
+
+.finca-side {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 22px;
+}
+
+.finca-mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.finca-main img {
+  object-position: center 62%;
+}
+
+.finca-side img:first-child {
+  object-position: center 42%;
+}
+
+.finca-side img:last-child {
+  object-position: center 46%;
 }
 
 .gallery-stat strong,
@@ -435,11 +463,11 @@ h2 {
 }
 
 .coffee-card:first-child .card-image-wrap img {
-  object-position: center 48%;
+  object-position: center 42%;
 }
 
 .coffee-card:last-child .card-image-wrap img {
-  object-position: center 68%;
+  object-position: center 42%;
 }
 
 .coffee-card:hover .card-image-wrap img {
@@ -583,7 +611,7 @@ h2 {
   color: var(--paper);
 }
 
-.manifesto-section > img,
+.manifesto-section > .manifesto-media,
 .manifesto-shade {
   position: absolute;
   inset: 0;
@@ -591,9 +619,13 @@ h2 {
   height: 100%;
 }
 
-.manifesto-section > img {
+.manifesto-section > .manifesto-media {
   object-fit: cover;
-  object-position: center 45%;
+  object-position: center center;
+}
+
+.manifesto-fallback {
+  display: none;
 }
 
 .manifesto-shade {
@@ -793,10 +825,6 @@ footer {
   font-size: 12px;
 }
 
-.brand-light {
-  color: var(--paper);
-}
-
 .footer-links {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -921,6 +949,14 @@ footer {
     height: 70px;
   }
 
+  .brand-logo {
+    height: 40px;
+  }
+
+  .brand-logo-footer {
+    height: 56px;
+  }
+
   .mobile-nav {
     top: 70px;
   }
@@ -931,7 +967,7 @@ footer {
   }
 
   .hero-image {
-    object-position: 62% center;
+    object-position: center 30%;
   }
 
   .hero-shade {
@@ -1002,6 +1038,21 @@ footer {
     grid-template-columns: 1fr;
     gap: 12px;
     padding-top: 0;
+    padding-bottom: 12px;
+  }
+
+  .finca-mosaic {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 6vw 88px;
+  }
+
+  .finca-main {
+    height: 460px;
+  }
+
+  .finca-side {
+    grid-template-rows: 320px 320px;
   }
 
   .gallery-main {
@@ -1047,8 +1098,8 @@ footer {
     height: 610px;
   }
 
-  .manifesto-section > img {
-    object-position: 47% center;
+  .manifesto-section > .manifesto-media {
+    object-position: center center;
   }
 
   blockquote {
@@ -1099,5 +1150,13 @@ footer {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .manifesto-section > video {
+    display: none;
+  }
+
+  .manifesto-fallback {
+    display: block;
   }
 }
