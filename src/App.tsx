@@ -183,7 +183,7 @@ function App() {
 
         <section className="origin-gallery section">
           <div className="gallery-main">
-            <img src={asset('/images/drying.jpg')} alt="Productora entre cerezas y pergamino secándose al sol frente a la montaña" loading="lazy" />
+            <img src={asset('/images/drying.jpg')} alt="Productora entre cerezas y pergamino secándose al sol frente a la montaña" />
             <span className="image-caption">El secado, frente a la montaña</span>
           </div>
           <div className="gallery-secondary">
@@ -191,18 +191,18 @@ function App() {
               <Mountain size={28} strokeWidth={1.5} />
               <p><strong>Marcala</strong><span>La Paz · Honduras</span></p>
             </div>
-            <img src={asset('/images/origin.jpg')} alt="Equipo de la finca entre plantas de café en Marcala" loading="lazy" />
+            <img src={asset('/images/origin.jpg')} alt="Equipo de la finca entre plantas de café en Marcala" />
           </div>
         </section>
 
         <section className="finca-mosaic" aria-label="La finca">
           <figure className="finca-main">
-            <img src={asset('/images/patio.jpg')} alt="Patios de secado con café cereza y pergamino bajo un cielo de nubes" loading="lazy" />
+            <img src={asset('/images/patio.jpg')} alt="Patios de secado con café cereza y pergamino bajo un cielo de nubes" />
             <span className="image-caption">Patios de secado en la finca</span>
           </figure>
           <div className="finca-side">
-            <img src={asset('/images/amanecer.jpg')} alt="Amanecer con neblina sobre las montañas de la finca" loading="lazy" />
-            <img src={asset('/images/conversacion.jpg')} alt="Productores conversando junto a cerezas de café en secado" loading="lazy" />
+            <img src={asset('/images/amanecer.jpg')} alt="Amanecer con neblina sobre las montañas de la finca" />
+            <img src={asset('/images/conversacion.jpg')} alt="Productores conversando junto a cerezas de café en secado" />
           </div>
         </section>
 
@@ -221,7 +221,7 @@ function App() {
             {coffeeTypes.map((coffee) => (
               <article className="coffee-card" key={coffee.title}>
                 <div className="card-image-wrap">
-                  <img src={coffee.image} alt={coffee.imageAlt} loading="lazy" />
+                  <img src={coffee.image} alt={coffee.imageAlt} />
                 </div>
                 <div className="card-copy">
                   <p className="card-eyebrow">{coffee.eyebrow}</p>
@@ -253,7 +253,7 @@ function App() {
             {lots.map((lot) => (
               <article className="lot-card" key={lot.id}>
                 <div className="lot-image">
-                  <img src={asset(lot.image)} alt={lot.imageAlt} loading="lazy" />
+                  <img src={asset(lot.image)} alt={lot.imageAlt} />
                   <span className={`lot-status is-${lot.status}`}>{lotStatusLabel[lot.status as keyof typeof lotStatusLabel]}</span>
                 </div>
                 <div className="lot-copy">
