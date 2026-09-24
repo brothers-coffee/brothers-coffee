@@ -138,8 +138,9 @@ function App() {
             <p className="hero-kicker"><span />Marcala, Honduras</p>
             <h1>Café de altura.<br /><em>Carácter de origen.</em></h1>
             <p className="hero-intro">
-              Café verde y tostado de especialidad, conectado con las personas y
-              montañas que hacen de Marcala un origen extraordinario.
+              Café verde y tostado de especialidad, conectado con las personas, la
+              cultura y la sostenibilidad que hacen de Brothers Coffee un café
+              extraordinario.
             </p>
             <div className="hero-actions">
               <a className="button button-light" href="#cafes">
