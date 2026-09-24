@@ -260,9 +260,8 @@ h2 {
 
 .origin-body {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 7vw;
-  max-width: 800px;
+  gap: 22px;
+  max-width: 640px;
   margin-left: auto;
 }
 
@@ -810,14 +809,42 @@ blockquote {
   color: #aebbb3;
 }
 
+.contact-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 55px;
+}
+
+.contact-channel,
 .contact-location {
   display: flex;
   flex-direction: column;
-  margin-top: 55px;
   padding-left: 18px;
   border-left: 2px solid var(--copper);
 }
 
+.contact-channel {
+  color: inherit;
+}
+
+.contact-channel svg {
+  margin-bottom: 8px;
+  color: var(--copper);
+}
+
+.contact-channel strong {
+  margin-top: 7px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.contact-channel:hover strong {
+  color: #d38a60;
+}
+
+.contact-channel span,
 .contact-location span,
 .contact-location small {
   color: #91a097;
@@ -913,10 +940,23 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-brand > p {
-  margin-top: 25px;
+.footer-brand > p,
+.footer-brand > a:not(.brand) {
+  margin-top: 12px;
   color: #819087;
   font-size: 12px;
+}
+
+.footer-brand > p {
+  margin-top: 25px;
+}
+
+.footer-brand > a:not(.brand) {
+  display: block;
+}
+
+.footer-brand > a:not(.brand):hover {
+  color: #d38a60;
 }
 
 .footer-links {

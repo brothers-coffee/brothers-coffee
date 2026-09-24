@@ -11,12 +11,17 @@ import {
   Menu,
   Mountain,
   PackageCheck,
+  Mail,
   Quote,
   Sprout,
   X,
 } from 'lucide-react'
 import './App.css'
 import products from './data/products.json'
+
+const contactEmail = 'edgar@brothershn.coffee'
+const whatsappNumber = '50495693232'
+const whatsappLabel = '+504 9569-3232'
 
 const asset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
@@ -65,25 +70,22 @@ const coffeeTypes = [
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [mailOpened, setMailOpened] = useState(false)
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const request = [
       'Solicitud para Brothers Coffee',
       `Nombre: ${data.get('name')}`,
-      `Empresa: ${data.get('company')}`,
+      `Empresa: ${data.get('company') || '—'}`,
       `Correo: ${data.get('email')}`,
       `Interés: ${data.get('interest')}`,
-      `Mensaje: ${data.get('message')}`,
+      `Mensaje: ${data.get('message') || '—'}`,
     ].join('\n')
-
-    try {
-      await navigator.clipboard.writeText(request)
-    } finally {
-      setCopied(true)
-    }
+    const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent('Solicitud para Brothers Coffee')}&body=${encodeURIComponent(request)}`
+    window.location.href = mailto
+    setMailOpened(true)
   }
 
   return (
@@ -155,17 +157,24 @@ function App() {
           <div className="section-label"><p>Nuestro origen</p></div>
           <div className="origin-copy">
             <p className="overline">Entre montañas, nace algo excepcional</p>
-            <h2>Un café que lleva<br /><em>Marcala al mundo.</em></h2>
+            <h2>Un café que lleva<br /><em>Chinacla al mundo.</em></h2>
             <div className="origin-body">
               <p>
                 Brothers Coffee conecta a compradores exigentes con cafés de
-                especialidad cultivados en Marcala, una región hondureña reconocida
-                por su tradición cafetalera y sus condiciones de altura.
+                especialidad cultivados en Chinacla, una tierra hondureña donde la
+                altura, el clima y la tradición cafetalera se unen para crear
+                perfiles excepcionales en taza.
               </p>
               <p>
-                Trabajamos cerca del origen, cuidando cada etapa para conservar la
-                identidad de cada lote y construir relaciones comerciales claras y
-                duraderas.
+                Chinacla ha sido origen de cafés campeones de la Taza de
+                Excelencia en tres ocasiones. Sus lotes se mantienen entre los
+                primeros lugares año tras año, y esa constancia la confirma como
+                una zona capaz de producir algunos de los mejores cafés de Honduras.
+              </p>
+              <p>
+                Trabajamos cerca del origen y cuidamos cada etapa para conservar la
+                identidad de cada lote, conectar a los productores con compradores
+                exigentes y llevar al mundo cafés que representan lo mejor de Chinacla.
               </p>
             </div>
           </div>
@@ -333,11 +342,22 @@ function App() {
             <p className="overline">Comencemos una conversación</p>
             <h2>Tu próximo café<br />puede comenzar <em>aquí.</em></h2>
             <p>
-              Cuéntanos qué perfil, volumen o presentación estás buscando. Podemos
-              preparar una solicitud para iniciar la conversación.
+              Cuéntanos qué perfil, volumen o presentación estás buscando. Escríbenos
+              directo o deja tu solicitud y se abre en tu correo.
             </p>
-            <div className="contact-location">
-              <span>Origen</span><strong>Marcala, La Paz</strong><small>Honduras · Centroamérica</small>
+            <div className="contact-channels">
+              <a className="contact-channel" href={`mailto:${contactEmail}`}>
+                <Mail size={18} />
+                <span>Correo</span>
+                <strong>{contactEmail}</strong>
+              </a>
+              <a className="contact-channel" href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">
+                <span>WhatsApp</span>
+                <strong>{whatsappLabel}</strong>
+              </a>
+              <div className="contact-location">
+                <span>Origen</span><strong>Marcala, La Paz</strong><small>Honduras · Centroamérica</small>
+              </div>
             </div>
           </div>
 
@@ -356,12 +376,12 @@ function App() {
             </label>
             <label>Cuéntanos qué buscas<textarea name="message" rows={4} placeholder="Mercado, volumen estimado, perfil o proceso..." /></label>
             <button className="button button-copper" type="submit">
-              {copied ? <><Check size={18} /> Solicitud copiada</> : <>Preparar solicitud <ArrowRight size={18} /></>}
+              {mailOpened ? <><Check size={18} /> Correo listo</> : <>Enviar solicitud <ArrowRight size={18} /></>}
             </button>
             <small>
-              {copied
-                ? 'Tu solicitud quedó copiada. Pégala en el canal de contacto de Brothers Coffee.'
-                : 'En esta primera versión, el botón copia tu solicitud para compartirla por tu canal preferido.'}
+              {mailOpened
+                ? `Se abrió tu correo con la solicitud para ${contactEmail}.`
+                : `La solicitud se abre en tu correo, dirigida a ${contactEmail}.`}
             </small>
           </form>
         </section>
@@ -373,6 +393,8 @@ function App() {
             <img className="brand-logo brand-logo-footer" src={asset('/images/logos/negativo.png')} alt="" />
           </a>
           <p>Café de especialidad desde Marcala, Honduras.</p>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+          <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">WhatsApp {whatsappLabel}</a>
         </div>
         <div className="footer-links">
           <div><span>Explorar</span>{navItems.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</div>
