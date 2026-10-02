@@ -130,8 +130,8 @@ function App() {
         <section className="hero-section" id="inicio">
           <img
             className="hero-image"
-            src={asset('/images/hero.jpg')}
-            alt="Productora con cerezas de café en el patio de secado, con las montañas de Marcala al fondo"
+            src={asset('/images/equipo.jpg')}
+            alt="Tres personas del equipo entre cafetos con cereza madura"
           />
           <div className="hero-shade" />
           <div className="hero-content">

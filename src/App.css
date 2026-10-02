@@ -86,7 +86,7 @@
 
 .hero-image {
   object-fit: cover;
-  object-position: center 34%;
+  object-position: center 42%;
   animation: heroScale 1.5s ease-out both;
 }
 
@@ -1106,7 +1106,7 @@ footer {
   }
 
   .hero-image {
-    object-position: center 30%;
+    object-position: 46% 36%;
   }
 
   .hero-shade {
