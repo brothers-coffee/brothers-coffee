@@ -4,127 +4,199 @@
     "name": "Single Origin SHG EP",
     "status": "disponible",
     "region": "Chinacla, La Paz",
-    "producer": "Productores de Chinacla",
+    "producer": { "es": "Productores de Chinacla", "en": "Chinacla producers" },
     "variety": "Catuai, Bourbon e IHCAFE 90",
-    "process": "Lavado",
-    "altitude": "1,200 a 1,400 msnm",
-    "notes": "Caramelo y chocolate, acidez y cuerpo medio, muy fragante.",
-    "volume": "280 sacos de 69 kg",
+    "process": { "es": "Lavado", "en": "Washed" },
+    "altitude": { "es": "1,200 a 1,400 msnm", "en": "1,200 to 1,400 masl" },
+    "notes": {
+      "es": "Caramelo y chocolate, acidez y cuerpo medio, muy fragante.",
+      "en": "Caramel and chocolate, medium acidity and body, very fragrant."
+    },
+    "volume": { "es": "280 sacos de 69 kg", "en": "280 bags of 69 kg" },
     "score": "",
-    "summary": "Cosecha de diciembre 2024. Café cultivado con estándares de conservación y precio pactado directo con los productores.",
+    "summary": {
+      "es": "Cosecha de diciembre 2024. Café cultivado con estándares de conservación y precio pactado directo con los productores.",
+      "en": "December 2024 harvest. Coffee grown to conservation standards, with a price agreed directly with the producers."
+    },
     "image": "/images/patio.jpg",
-    "imageAlt": "Patios de secado con pergamino y cereza en la finca"
+    "imageAlt": {
+      "es": "Patios de secado con pergamino y cereza en la finca",
+      "en": "Drying patios with parchment and cherry on the farm"
+    }
   },
   {
     "id": "la-union-honey-reserve",
     "name": "La Unión, Honey Reserve",
     "status": "consultar",
     "region": "Chinacla, Honduras",
-    "producer": "Mujeres de La Unión",
+    "producer": { "es": "Mujeres de La Unión", "en": "Women of La Unión" },
     "variety": "Catuai, Bourbon, IHCAFE 90 y Parainema",
-    "process": "Honey Reserve",
-    "altitude": "1,300 a 1,500 msnm",
-    "notes": "Frutas tropicales, panela, miel y albaricoque. Dulce, jugoso y de retrogusto agradable.",
-    "volume": "",
+    "process": { "es": "Honey Reserve", "en": "Honey Reserve" },
+    "altitude": { "es": "1,300 a 1,500 msnm", "en": "1,300 to 1,500 masl" },
+    "notes": {
+      "es": "Frutas tropicales, panela, miel y albaricoque. Dulce, jugoso y de retrogusto agradable.",
+      "en": "Tropical fruit, panela, honey, and apricot. Sweet, juicy, and a pleasant finish."
+    },
+    "volume": { "es": "", "en": "" },
     "score": "",
-    "summary": "Lote de un grupo de mujeres lencas de La Unión, en Marcala.",
+    "summary": {
+      "es": "Lote de un grupo de mujeres lencas de La Unión, en Marcala.",
+      "en": "A lot from a group of Lenca women in La Unión, Marcala."
+    },
     "image": "/images/drying.jpg",
-    "imageAlt": "Cerezas y pergamino en el patio de secado"
+    "imageAlt": {
+      "es": "Cerezas y pergamino en el patio de secado",
+      "en": "Cherries and parchment on the drying patio"
+    }
   },
   {
     "id": "pacayal-nextgen-origin",
     "name": "NextGen Origin",
     "status": "consultar",
     "region": "Marcala, Honduras",
-    "producer": "Jóvenes productores",
+    "producer": { "es": "Jóvenes productores", "en": "Young producers" },
     "variety": "",
-    "process": "Origen",
-    "altitude": "",
-    "notes": "Café de una nueva generación de productores que se forman de la semilla a la taza.",
-    "volume": "",
+    "process": { "es": "Origen", "en": "Origin" },
+    "altitude": { "es": "", "en": "" },
+    "notes": {
+      "es": "Café de una nueva generación de productores que se forman de la semilla a la taza.",
+      "en": "Coffee from a new generation of producers training from seed to cup."
+    },
+    "volume": { "es": "", "en": "" },
     "score": "",
-    "summary": "Programa para que jóvenes se queden en el café, con ingreso propio y una mirada de negocio.",
+    "summary": {
+      "es": "Programa para que jóvenes se queden en el café, con ingreso propio y una mirada de negocio.",
+      "en": "A program for young people to stay in coffee, with their own income and a business outlook."
+    },
     "image": "/images/amanecer.jpg",
-    "imageAlt": "Amanecer con neblina sobre las montañas de la finca"
+    "imageAlt": {
+      "es": "Amanecer con neblina sobre las montañas de la finca",
+      "en": "Dawn mist over the farm's mountains"
+    }
   },
   {
     "id": "hexelito-catuai-reserve",
     "name": "Hexelito, Catuai Reserve",
     "status": "agotado",
     "region": "Chinacla, La Paz",
-    "producer": "Alexander López",
+    "producer": { "es": "Alexander López", "en": "Alexander López" },
     "variety": "Catuai rojo",
-    "process": "Honey Reserve",
-    "altitude": "",
-    "notes": "Vino, cacao, caramelo, miel, azúcar morena, naranja y pasas.",
-    "volume": "",
+    "process": { "es": "Honey Reserve", "en": "Honey Reserve" },
+    "altitude": { "es": "", "en": "" },
+    "notes": {
+      "es": "Vino, cacao, caramelo, miel, azúcar morena, naranja y pasas.",
+      "en": "Wine, cacao, caramel, honey, brown sugar, orange, and raisin."
+    },
+    "volume": { "es": "", "en": "" },
     "score": "87",
-    "summary": "Finca Los Alpes. Finalista en la 1.ª subasta electrónica de Marcala, 2020.",
+    "summary": {
+      "es": "Finca Los Alpes. Finalista en la 1.ª subasta electrónica de Marcala, 2020.",
+      "en": "Finca Los Alpes. Finalist in Marcala's 1st electronic auction, 2020."
+    },
     "image": "/images/cerezas.jpg",
-    "imageAlt": "Cerezas de café madurando en la mata"
+    "imageAlt": {
+      "es": "Cerezas de café madurando en la mata",
+      "en": "Coffee cherries ripening on the tree"
+    }
   },
   {
     "id": "natalia-pineda-natural-las-flores",
     "name": "Natalia Pineda, Natural, Las Flores",
     "status": "agotado",
     "region": "Chinacla, La Paz",
-    "producer": "Natalia Pineda",
+    "producer": { "es": "Natalia Pineda", "en": "Natalia Pineda" },
     "variety": "Catuai rojo",
-    "process": "Natural",
-    "altitude": "1,530 msnm",
-    "notes": "Magnolia, lichi, caramelo y manzana verde.",
-    "volume": "",
+    "process": { "es": "Natural", "en": "Natural" },
+    "altitude": { "es": "1,530 msnm", "en": "1,530 masl" },
+    "notes": {
+      "es": "Magnolia, lichi, caramelo y manzana verde.",
+      "en": "Magnolia, lychee, caramel, and green apple."
+    },
+    "volume": { "es": "", "en": "" },
     "score": "86.25",
-    "summary": "Finca Las Flores, lote 1. 4.º lugar en la Taza de Excelencia de Honduras 2017.",
+    "summary": {
+      "es": "Finca Las Flores, lote 1. 4.º lugar en la Taza de Excelencia de Honduras 2017.",
+      "en": "Finca Las Flores, lot 1. 4th place in the 2017 Honduras Cup of Excellence."
+    },
     "image": "/images/conversacion.jpg",
-    "imageAlt": "Cerezas de café extendidas para secar al sol"
+    "imageAlt": {
+      "es": "Cerezas de café extendidas para secar al sol",
+      "en": "Coffee cherries spread out to dry in the sun"
+    }
   },
   {
     "id": "pacayal-natural-reserve",
     "name": "Natural Reserve",
     "status": "agotado",
     "region": "Chinacla, La Paz",
-    "producer": "",
+    "producer": { "es": "", "en": "" },
     "variety": "Typica, Catuai y Bourbon",
-    "process": "Natural Reserve",
-    "altitude": "",
-    "notes": "Té de rosa, miel, chocolate oscuro, arándano, frambuesa y uva blanca.",
-    "volume": "",
+    "process": { "es": "Natural Reserve", "en": "Natural Reserve" },
+    "altitude": { "es": "", "en": "" },
+    "notes": {
+      "es": "Té de rosa, miel, chocolate oscuro, arándano, frambuesa y uva blanca.",
+      "en": "Rose tea, honey, dark chocolate, blueberry, raspberry, and white grape."
+    },
+    "volume": { "es": "", "en": "" },
     "score": "",
-    "summary": "Embarque de abril 2023. Café suave y de sabor complejo.",
+    "summary": {
+      "es": "Embarque de abril 2023. Café suave y de sabor complejo.",
+      "en": "April 2023 shipment. A mild coffee with a complex flavor."
+    },
     "image": "/images/hero.jpg",
-    "imageAlt": "Cerezas recién cosechadas en el patio de secado"
+    "imageAlt": {
+      "es": "Cerezas recién cosechadas en el patio de secado",
+      "en": "Freshly picked cherries on the drying patio"
+    }
   },
   {
     "id": "san-jacinto-typica-reserve",
     "name": "San Jacinto, Typica Reserve",
     "status": "agotado",
     "region": "Marcala, Honduras",
-    "producer": "",
+    "producer": { "es": "", "en": "" },
     "variety": "Typica",
-    "process": "Natural",
-    "altitude": "",
-    "notes": "Té de rosa, miel, chocolate oscuro, arándano, frambuesa y uva blanca.",
-    "volume": "",
+    "process": { "es": "Natural", "en": "Natural" },
+    "altitude": { "es": "", "en": "" },
+    "notes": {
+      "es": "Té de rosa, miel, chocolate oscuro, arándano, frambuesa y uva blanca.",
+      "en": "Rose tea, honey, dark chocolate, blueberry, raspberry, and white grape."
+    },
+    "volume": { "es": "", "en": "" },
     "score": "86",
-    "summary": "Finca San Jacinto. Finalista en la 1.ª subasta electrónica de Marcala, 2020.",
+    "summary": {
+      "es": "Finca San Jacinto. Finalista en la 1.ª subasta electrónica de Marcala, 2020.",
+      "en": "Finca San Jacinto. Finalist in Marcala's 1st electronic auction, 2020."
+    },
     "image": "/images/green-coffee.jpg",
-    "imageAlt": "Sacos de café listos para su traslado"
+    "imageAlt": {
+      "es": "Sacos de café listos para su traslado",
+      "en": "Coffee bags ready for transport"
+    }
   },
   {
     "id": "next-gen-david-guzman-farm-los-agucates",
     "name": "David Guzmán, Los Agucates",
     "status": "agotado",
     "region": "Marcala, Honduras",
-    "producer": "David Guzmán",
+    "producer": { "es": "David Guzmán", "en": "David Guzmán" },
     "variety": "Gesha",
-    "process": "Gesha Reserve",
-    "altitude": "",
-    "notes": "Miel, floral, jazmín, clavo y durazno.",
-    "volume": "",
+    "process": { "es": "Gesha Reserve", "en": "Gesha Reserve" },
+    "altitude": { "es": "", "en": "" },
+    "notes": {
+      "es": "Miel, floral, jazmín, clavo y durazno.",
+      "en": "Honey, floral, jasmine, clove, and peach."
+    },
+    "volume": { "es": "", "en": "" },
     "score": "",
-    "summary": "Finca Los Agucates. Productor de tercera generación, en fermentaciones controladas.",
+    "summary": {
+      "es": "Finca Los Agucates. Productor de tercera generación, en fermentaciones controladas.",
+      "en": "Finca Los Agucates. A third-generation producer, working with controlled fermentations."
+    },
     "image": "/images/origin.jpg",
-    "imageAlt": "Equipo de la finca entre plantas de café"
+    "imageAlt": {
+      "es": "Equipo de la finca entre plantas de café",
+      "en": "The farm team among coffee plants"
+    }
   }
 ]

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import {
   ArrowDown,
@@ -17,7 +17,9 @@ import {
   X,
 } from 'lucide-react'
 import './App.css'
-import products from './data/products.json'
+import productsJson from './data/products.json'
+import { applyDocument, localeFromLocation, messages, prepareLocale, rememberLocale } from './i18n/locale.ts'
+import type { Locale, Localized, LotStatus } from './i18n/types.ts'
 
 const contactEmail = 'edgar@brothershn.coffee'
 const whatsappNumber = '50495693232'
@@ -26,64 +28,79 @@ const whatsappLabel = '+504 9569-3232'
 const asset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
-const navItems = [
-  ['Origen', '#origen'],
-  ['Cafés', '#cafes'],
-  ['Lotes', '#lotes'],
-  ['Proceso', '#proceso'],
-  ['Impacto', '#impacto'],
-]
-
-const lotStatusLabel = {
-  disponible: 'Disponible',
-  consultar: 'Consultar',
-  agotado: 'Agotado',
-} as const
+const navHrefs = ['#origen', '#cafes', '#lotes', '#proceso', '#impacto'] as const
 
 const lotOrder = { disponible: 0, consultar: 1, agotado: 2 } as const
 
-const lots = [...products].sort(
-  (a, b) =>
-    lotOrder[a.status as keyof typeof lotOrder] - lotOrder[b.status as keyof typeof lotOrder],
+type Lot = {
+  id: string
+  name: string
+  status: LotStatus
+  region: string
+  producer: Localized
+  variety: string
+  process: Localized
+  altitude: Localized
+  notes: Localized
+  volume: Localized
+  score: string
+  summary: Localized
+  image: string
+  imageAlt: Localized
+}
+
+const lots = [...(productsJson as Lot[])].sort(
+  (a, b) => lotOrder[a.status] - lotOrder[b.status],
 )
 
-const coffeeTypes = [
-  {
-    title: 'Café verde',
-    eyebrow: 'Para tostadores e importadores',
-    description:
-      'Lotes y microlotes de especialidad preparados según las necesidades de cada comprador, con información clara desde el origen.',
-    details: ['Trazabilidad por lote', 'Muestras disponibles', 'Preparación para exportación'],
-    image: asset('/images/green-coffee.jpg'),
-    imageAlt: 'Productor acomodando sacos de café para su traslado',
-  },
-  {
-    title: 'Café tostado',
-    eyebrow: 'Para marcas y negocios',
-    description:
-      'El carácter de Marcala expresado en perfiles de tueste pensados para una taza dulce, limpia y memorable.',
-    details: ['Tueste por perfil', 'Presentaciones a medida', 'Consistencia en cada entrega'],
-    image: asset('/images/cerezas.jpg'),
-    imageAlt: 'Cerezas de café madurando en la mata',
-  },
-]
+const coffeeImages = {
+  green: asset('/images/green-coffee.jpg'),
+  roasted: asset('/images/cerezas.jpg'),
+} as const
+
+const processIcons = [Sprout, Coffee, PackageCheck]
+const valueIcons = [Globe2, Leaf, Coffee]
+
+const text = (value: Localized, locale: Locale) => value[locale]
 
 function App() {
+  const [locale, setLocale] = useState<Locale>(() => prepareLocale())
   const [menuOpen, setMenuOpen] = useState(false)
   const [mailOpened, setMailOpened] = useState(false)
+  const copy = messages[locale]
+
+  useEffect(() => {
+    const onPop = () => {
+      const next = localeFromLocation()
+      applyDocument(next)
+      setLocale(next)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  const chooseLocale = (next: Locale) => {
+    rememberLocale(next)
+    if (next === locale) return
+    applyDocument(next)
+    setLocale(next)
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
+    const interestValue = String(data.get('interest') || '')
+    const interestLabel =
+      copy.form.interestOptions.find((option) => option.value === interestValue)?.label ?? interestValue
     const request = [
-      'Solicitud para Brothers Coffee',
-      `Nombre: ${data.get('name')}`,
-      `Empresa: ${data.get('company') || '—'}`,
-      `Correo: ${data.get('email')}`,
-      `Interés: ${data.get('interest')}`,
-      `Mensaje: ${data.get('message') || '—'}`,
+      copy.form.bodyTitle,
+      `${copy.form.name}: ${data.get('name')}`,
+      `${copy.form.company}: ${data.get('company') || '—'}`,
+      `${copy.form.email}: ${data.get('email')}`,
+      `${copy.form.interest}: ${interestLabel}`,
+      `${copy.form.message}: ${data.get('message') || '—'}`,
     ].join('\n')
-    const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent('Solicitud para Brothers Coffee')}&body=${encodeURIComponent(request)}`
+    const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(copy.form.subject)}&body=${encodeURIComponent(request)}`
     window.location.href = mailto
     setMailOpened(true)
   }
@@ -91,36 +108,44 @@ function App() {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <a className="brand" href="#inicio" aria-label="Brothers Coffee, inicio">
+        <a className="brand" href="#inicio" aria-label={copy.header.home}>
           <img className="brand-logo" src={asset('/images/logos/negativo.png')} alt="" />
         </a>
 
-        <nav className="desktop-nav" aria-label="Navegación principal">
-          {navItems.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+        <nav className="desktop-nav" aria-label={copy.header.mainNav}>
+          {copy.nav.map((label, index) => <a key={navHrefs[index]} href={navHrefs[index]}>{label}</a>)}
         </nav>
 
-        <a className="header-cta" href="#contacto">
-          Hablemos <ArrowRight size={16} />
-        </a>
+        <div className="header-tools">
+          <div className="lang-switch" role="group" aria-label={copy.lang.label}>
+            <button type="button" aria-pressed={locale === 'es'} onClick={() => chooseLocale('es')}>ES</button>
+            <span className="lang-switch-divider" aria-hidden="true">|</span>
+            <button type="button" aria-pressed={locale === 'en'} onClick={() => chooseLocale('en')}>EN</button>
+          </div>
 
-        <button
-          className="menu-button"
-          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
+          <a className="header-cta" href="#contacto">
+            {copy.header.cta} <ArrowRight size={16} />
+          </a>
+
+          <button
+            className="menu-button"
+            aria-label={menuOpen ? copy.header.closeMenu : copy.header.openMenu}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
 
         {menuOpen && (
-          <nav className="mobile-nav" aria-label="Navegación móvil">
-            {navItems.map(([label, href]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>
+          <nav className="mobile-nav" aria-label={copy.header.mobileNav}>
+            {copy.nav.map((label, index) => (
+              <a key={navHrefs[index]} href={navHrefs[index]} onClick={() => setMenuOpen(false)}>
                 {label} <ChevronRight size={18} />
               </a>
             ))}
             <a href="#contacto" onClick={() => setMenuOpen(false)}>
-              Solicitar muestras <ChevronRight size={18} />
+              {copy.header.samples} <ChevronRight size={18} />
             </a>
           </nav>
         )}
@@ -131,97 +156,74 @@ function App() {
           <img
             className="hero-image"
             src={asset('/images/equipo.jpg')}
-            alt="Tres personas del equipo entre cafetos con cereza madura"
+            alt={copy.hero.imageAlt}
           />
           <div className="hero-shade" />
           <div className="hero-content">
             <p className="hero-kicker"><span />Marcala, Honduras</p>
-            <h1>Café de altura.<br /><em>Carácter de origen.</em></h1>
-            <p className="hero-intro">
-              Café verde y tostado de especialidad, conectado con las personas, la
-              cultura y la sostenibilidad que hacen de Brothers Coffee un café
-              extraordinario.
-            </p>
+            <h1>{copy.hero.title}<br /><em>{copy.hero.titleEm}</em></h1>
+            <p className="hero-intro">{copy.hero.intro}</p>
             <div className="hero-actions">
               <a className="button button-light" href="#cafes">
-                Descubrir nuestros cafés <ArrowRight size={18} />
+                {copy.hero.coffees} <ArrowRight size={18} />
               </a>
               <a className="text-link light" href="#origen">
-                Conocer el origen <ArrowDown size={17} />
+                {copy.hero.origin} <ArrowDown size={17} />
               </a>
             </div>
           </div>
-          <div className="hero-side-note"><span>14°09′ N</span><span>87°58′ O</span></div>
+          <div className="hero-side-note"><span>14°09′ N</span><span>{copy.hero.west}</span></div>
         </section>
 
         <section className="origin-intro section" id="origen">
-          <div className="section-label"><p>Nuestro origen</p></div>
+          <div className="section-label"><p>{copy.origin.label}</p></div>
           <div className="origin-copy">
-            <p className="overline">Entre montañas, nace algo excepcional</p>
-            <h2>Un café que lleva<br /><em>Chinacla al mundo.</em></h2>
+            <p className="overline">{copy.origin.overline}</p>
+            <h2>{copy.origin.title}<br /><em>{copy.origin.titleEm}</em></h2>
             <div className="origin-body">
-              <p>
-                Brothers Coffee conecta a compradores exigentes con cafés de
-                especialidad cultivados en Chinacla, una tierra hondureña donde la
-                altura, el clima y la tradición cafetalera se unen para crear
-                perfiles excepcionales en taza.
-              </p>
-              <p>
-                Chinacla ha sido origen de cafés campeones de la Taza de
-                Excelencia en tres ocasiones. Sus lotes se mantienen entre los
-                primeros lugares año tras año, y esa constancia la confirma como
-                una zona capaz de producir algunos de los mejores cafés de Honduras.
-              </p>
-              <p>
-                Trabajamos cerca del origen y cuidamos cada etapa para conservar la
-                identidad de cada lote, conectar a los productores con compradores
-                exigentes y llevar al mundo cafés que representan lo mejor de Chinacla.
-              </p>
+              {copy.origin.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
           </div>
         </section>
 
         <section className="origin-gallery section">
           <div className="gallery-main">
-            <img src={asset('/images/drying.jpg')} alt="Productora entre cerezas y pergamino secándose al sol frente a la montaña" />
-            <span className="image-caption">El secado, frente a la montaña</span>
+            <img src={asset('/images/drying.jpg')} alt={copy.gallery.dryingAlt} />
+            <span className="image-caption">{copy.gallery.dryingCaption}</span>
           </div>
           <div className="gallery-secondary">
             <div className="gallery-stat">
               <Mountain size={28} strokeWidth={1.5} />
-              <p><strong>Marcala</strong><span>La Paz · Honduras</span></p>
+              <p><strong>Marcala</strong><span>{copy.gallery.place}</span></p>
             </div>
-            <img src={asset('/images/origin.jpg')} alt="Equipo de la finca entre plantas de café en Marcala" />
+            <img src={asset('/images/origin.jpg')} alt={copy.gallery.teamAlt} />
           </div>
         </section>
 
-        <section className="finca-mosaic" aria-label="La finca">
+        <section className="finca-mosaic" aria-label={copy.gallery.farmLabel}>
           <figure className="finca-main">
-            <img src={asset('/images/patio.jpg')} alt="Patios de secado con café cereza y pergamino bajo un cielo de nubes" />
-            <span className="image-caption">Patios de secado en la finca</span>
+            <img src={asset('/images/patio.jpg')} alt={copy.gallery.patiosAlt} />
+            <span className="image-caption">{copy.gallery.patiosCaption}</span>
           </figure>
           <div className="finca-side">
-            <img src={asset('/images/amanecer.jpg')} alt="Amanecer con neblina sobre las montañas de la finca" />
-            <img src={asset('/images/conversacion.jpg')} alt="Productores conversando junto a cerezas de café en secado" />
+            <img src={asset('/images/amanecer.jpg')} alt={copy.gallery.dawnAlt} />
+            <img src={asset('/images/conversacion.jpg')} alt={copy.gallery.conversationAlt} />
           </div>
         </section>
 
         <section className="coffee-section section" id="cafes">
-          <div className="section-label section-label-light"><p>Nuestra oferta</p></div>
+          <div className="section-label section-label-light"><p>{copy.coffees.label}</p></div>
           <div className="coffee-heading">
-            <p className="overline">Calidad que se puede rastrear</p>
-            <h2>Del grano verde<br /><em>a la taza.</em></h2>
-            <p>
-              Una oferta flexible para tostadores, importadores, distribuidores y
-              marcas que buscan café hondureño con identidad.
-            </p>
+            <p className="overline">{copy.coffees.overline}</p>
+            <h2>{copy.coffees.title}<br /><em>{copy.coffees.titleEm}</em></h2>
+            <p>{copy.coffees.intro}</p>
           </div>
 
           <div className="coffee-cards">
-            {coffeeTypes.map((coffee) => (
-              <article className="coffee-card" key={coffee.title}>
+            {copy.coffees.cards.map((coffee) => (
+              <article className="coffee-card" key={coffee.id}>
                 <div className="card-image-wrap">
-                  <img src={coffee.image} alt={coffee.imageAlt} />
+                  <img src={coffeeImages[coffee.id]} alt={coffee.imageAlt} />
                 </div>
                 <div className="card-copy">
                   <p className="card-eyebrow">{coffee.eyebrow}</p>
@@ -232,7 +234,7 @@ function App() {
                       <li key={detail}><Check size={15} /> {detail}</li>
                     ))}
                   </ul>
-                  <a href="#contacto">Consultar disponibilidad <ArrowRight size={16} /></a>
+                  <a href="#contacto">{copy.coffees.inquire} <ArrowRight size={16} /></a>
                 </div>
               </article>
             ))}
@@ -240,62 +242,61 @@ function App() {
         </section>
 
         <section className="lots-section section" id="lotes">
-          <div className="section-label"><p>Lotes</p></div>
+          <div className="section-label"><p>{copy.lots.label}</p></div>
           <div className="lots-heading">
-            <p className="overline">Café verde de Marcala</p>
-            <h2>Cada lote tiene<br /><em>nombre y finca.</em></h2>
-            <p>
-              Origen, proceso y notas de taza. La disponibilidad cambia con la cosecha
-              y se confirma al pedir una muestra.
-            </p>
+            <p className="overline">{copy.lots.overline}</p>
+            <h2>{copy.lots.title}<br /><em>{copy.lots.titleEm}</em></h2>
+            <p>{copy.lots.intro}</p>
           </div>
           <div className="lot-grid">
-            {lots.map((lot) => (
-              <article className="lot-card" key={lot.id}>
-                <div className="lot-image">
-                  <img src={asset(lot.image)} alt={lot.imageAlt} />
-                  <span className={`lot-status is-${lot.status}`}>{lotStatusLabel[lot.status as keyof typeof lotStatusLabel]}</span>
-                </div>
-                <div className="lot-copy">
-                  <p className="card-eyebrow">{lot.process}</p>
-                  <h3>{lot.name}</h3>
-                  <p className="lot-meta">
-                    {[lot.region, lot.variety, lot.altitude].filter(Boolean).join(' · ')}
-                  </p>
-                  <p>{lot.notes}</p>
-                  <p className="lot-summary">{lot.summary}</p>
-                  <div className="lot-facts">
-                    {lot.producer && <span>{lot.producer}</span>}
-                    {lot.score && <span>Puntaje {lot.score}</span>}
-                    {lot.volume && <span>{lot.volume}</span>}
+            {lots.map((lot) => {
+              const producer = text(lot.producer, locale)
+              const altitude = text(lot.altitude, locale)
+              const volume = text(lot.volume, locale)
+              return (
+                <article className="lot-card" key={lot.id}>
+                  <div className="lot-image">
+                    <img src={asset(lot.image)} alt={text(lot.imageAlt, locale)} />
+                    <span className={`lot-status is-${lot.status}`}>{copy.lots.status[lot.status]}</span>
                   </div>
-                  <a href="#contacto">Consultar este lote <ArrowRight size={16} /></a>
-                </div>
-              </article>
-            ))}
+                  <div className="lot-copy">
+                    <p className="card-eyebrow">{text(lot.process, locale)}</p>
+                    <h3>{lot.name}</h3>
+                    <p className="lot-meta">
+                      {[lot.region, lot.variety, altitude].filter(Boolean).join(' · ')}
+                    </p>
+                    <p>{text(lot.notes, locale)}</p>
+                    <p className="lot-summary">{text(lot.summary, locale)}</p>
+                    <div className="lot-facts">
+                      {producer && <span>{producer}</span>}
+                      {lot.score && <span>{copy.lots.score(lot.score)}</span>}
+                      {volume && <span>{volume}</span>}
+                    </div>
+                    <a href="#contacto">{copy.lots.inquire} <ArrowRight size={16} /></a>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </section>
 
         <section className="process-section section" id="proceso">
-          <div className="section-label"><p>Cómo trabajamos</p></div>
+          <div className="section-label"><p>{copy.process.label}</p></div>
           <div className="process-content">
             <div className="process-heading">
-              <p className="overline">De la finca al destino</p>
-              <h2>Cuidado en cada<br /><em>decisión.</em></h2>
+              <p className="overline">{copy.process.overline}</p>
+              <h2>{copy.process.title}<br /><em>{copy.process.titleEm}</em></h2>
             </div>
             <div className="process-list">
-              <article>
-                <Sprout />
-                <div><h3>Selección en origen</h3><p>Identificamos cafés con perfiles claros y potencial para cada mercado.</p></div>
-              </article>
-              <article>
-                <Coffee />
-                <div><h3>Control de calidad</h3><p>Evaluamos cada lote para proteger su consistencia y expresión en taza.</p></div>
-              </article>
-              <article>
-                <PackageCheck />
-                <div><h3>Preparación y exportación</h3><p>Coordinamos la preparación del café según el destino y las necesidades del comprador.</p></div>
-              </article>
+              {copy.process.steps.map((step, index) => {
+                const Icon = processIcons[index]
+                return (
+                  <article key={step.title}>
+                    <Icon />
+                    <div><h3>{step.title}</h3><p>{step.body}</p></div>
+                  </article>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -304,7 +305,7 @@ function App() {
           <img
             className="manifesto-media manifesto-fallback"
             src={asset('/images/amanecer.jpg')}
-            alt="Amanecer con neblina sobre las montañas de la finca"
+            alt={copy.gallery.dawnAlt}
           />
           <video
             className="manifesto-media"
@@ -321,35 +322,36 @@ function App() {
           <div className="manifesto-shade" />
           <div className="manifesto-content">
             <Quote size={38} strokeWidth={1} />
-            <blockquote>
-              El mejor café no solo se reconoce en la taza. También se reconoce en
-              las relaciones que deja a su paso.
-            </blockquote>
-            <p>Una visión de calidad compartida desde Marcala.</p>
+            <blockquote>{copy.manifesto.quote}</blockquote>
+            <p>{copy.manifesto.caption}</p>
           </div>
         </section>
 
         <section className="values-section section">
-          <div className="section-label"><p>Lo que nos guía</p></div>
+          <div className="section-label"><p>{copy.values.label}</p></div>
           <div className="values-grid">
-            <article><Globe2 /><h3>Origen visible</h3><p>Cada café comienza con una finca, una familia y una historia que merece ser conocida.</p></article>
-            <article><Leaf /><h3>Calidad responsable</h3><p>Buscamos calidad con una mirada de largo plazo sobre la tierra y las comunidades.</p></article>
-            <article><Coffee /><h3>Relaciones directas</h3><p>Preferimos conversaciones transparentes y alianzas construidas cosecha tras cosecha.</p></article>
+            {copy.values.items.map((item, index) => {
+              const Icon = valueIcons[index]
+              return (
+                <article key={item.title}>
+                  <Icon />
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              )
+            })}
           </div>
         </section>
 
         <section className="contact-section section" id="contacto">
           <div className="contact-copy">
-            <p className="overline">Comencemos una conversación</p>
-            <h2>Tu próximo café<br />puede comenzar <em>aquí.</em></h2>
-            <p>
-              Cuéntanos qué perfil, volumen o presentación estás buscando. Escríbenos
-              directo o deja tu solicitud y se abre en tu correo.
-            </p>
+            <p className="overline">{copy.contact.overline}</p>
+            <h2>{copy.contact.title}<br />{copy.contact.titleRest}<em>{copy.contact.titleEm}</em></h2>
+            <p>{copy.contact.intro}</p>
             <div className="contact-channels">
               <a className="contact-channel" href={`mailto:${contactEmail}`}>
                 <Mail size={18} />
-                <span>Correo</span>
+                <span>{copy.contact.email}</span>
                 <strong>{contactEmail}</strong>
               </a>
               <a className="contact-channel" href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">
@@ -357,32 +359,32 @@ function App() {
                 <strong>{whatsappLabel}</strong>
               </a>
               <div className="contact-location">
-                <span>Origen</span><strong>Marcala, La Paz</strong><small>Honduras · Centroamérica</small>
+                <span>{copy.contact.origin}</span><strong>Marcala, La Paz</strong><small>{copy.contact.region}</small>
               </div>
             </div>
           </div>
 
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="field-row">
-              <label>Nombre<input name="name" placeholder="Tu nombre" required /></label>
-              <label>Empresa<input name="company" placeholder="Nombre de tu empresa" /></label>
+              <label>{copy.form.name}<input name="name" placeholder={copy.form.namePlaceholder} required /></label>
+              <label>{copy.form.company}<input name="company" placeholder={copy.form.companyPlaceholder} /></label>
             </div>
-            <label>Correo electrónico<input name="email" type="email" placeholder="nombre@empresa.com" required /></label>
+            <label>{copy.form.email}<input name="email" type="email" placeholder={copy.form.emailPlaceholder} required /></label>
             <label>
-              Me interesa
+              {copy.form.interest}
               <select name="interest" defaultValue="">
-                <option value="" disabled>Selecciona una opción</option>
-                <option>Café verde</option><option>Café tostado</option><option>Muestras</option><option>Alianza comercial</option>
+                <option value="" disabled>{copy.form.interestPlaceholder}</option>
+                {copy.form.interestOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
               </select>
             </label>
-            <label>Cuéntanos qué buscas<textarea name="message" rows={4} placeholder="Mercado, volumen estimado, perfil o proceso..." /></label>
+            <label>{copy.form.message}<textarea name="message" rows={4} placeholder={copy.form.messagePlaceholder} /></label>
             <button className="button button-copper" type="submit">
-              {mailOpened ? <><Check size={18} /> Correo listo</> : <>Enviar solicitud <ArrowRight size={18} /></>}
+              {mailOpened ? <><Check size={18} /> {copy.form.submitDone}</> : <>{copy.form.submit} <ArrowRight size={18} /></>}
             </button>
             <small>
-              {mailOpened
-                ? `Se abrió tu correo con la solicitud para ${contactEmail}.`
-                : `La solicitud se abre en tu correo, dirigida a ${contactEmail}.`}
+              {mailOpened ? copy.form.opened(contactEmail) : copy.form.hint(contactEmail)}
             </small>
           </form>
         </section>
@@ -390,16 +392,22 @@ function App() {
 
       <footer>
         <div className="footer-brand">
-          <a className="brand" href="#inicio" aria-label="Brothers Coffee, inicio">
+          <a className="brand" href="#inicio" aria-label={copy.header.home}>
             <img className="brand-logo brand-logo-footer" src={asset('/images/logos/negativo.png')} alt="" />
           </a>
-          <p>Café de especialidad desde Marcala, Honduras.</p>
+          <p>{copy.footer.tagline}</p>
           <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
           <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">WhatsApp {whatsappLabel}</a>
         </div>
         <div className="footer-links">
-          <div><span>Explorar</span>{navItems.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</div>
-          <div><span>Destino</span><p>Honduras</p><p>Norteamérica</p><p>Europa</p><p>Asia</p></div>
+          <div>
+            <span>{copy.footer.explore}</span>
+            {copy.nav.map((label, index) => <a key={navHrefs[index]} href={navHrefs[index]}>{label}</a>)}
+          </div>
+          <div>
+            <span>{copy.footer.destination}</span>
+            {copy.footer.places.map((place) => <p key={place}>{place}</p>)}
+          </div>
         </div>
         <div className="footer-bottom"><p>© {new Date().getFullYear()} Brothers Coffee</p><p>Marcala, Honduras</p></div>
       </footer>
