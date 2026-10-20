@@ -31,14 +31,12 @@ const asset = (path: string) =>
 type Page = 'home' | 'approach' | 'producers' | 'traceability' | 'about'
 
 const navItems = [
-  { label: 0, href: '#origen', page: 'home' as Page },
-  { label: 1, href: '#cafes', page: 'home' as Page },
-  { label: 2, href: '#lotes', page: 'home' as Page },
-  { label: 3, href: '#/approach', page: 'approach' as Page },
-  { label: 4, href: '#/producers', page: 'producers' as Page },
-  { label: 5, href: '#/traceability', page: 'traceability' as Page },
-  { label: 6, href: '#/about', page: 'about' as Page },
-  { label: 7, href: '#contacto', page: 'home' as Page },
+  { label: 0, href: '#cafes', page: 'home' as Page },
+  { label: 1, href: '#/producers', page: 'producers' as Page },
+  { label: 2, href: '#/approach', page: 'approach' as Page },
+  { label: 3, href: '#/traceability', page: 'traceability' as Page },
+  { label: 4, href: '#/about', page: 'about' as Page },
+  { label: 5, href: '#contacto', page: 'home' as Page },
 ]
 
 const lotOrder = { disponible: 0, consultar: 1, agotado: 2 } as const

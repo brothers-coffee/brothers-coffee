@@ -8,7 +8,7 @@ export const en = {
   lang: {
     label: 'Language',
   },
-  nav: ['Origin', 'Our Coffees', 'Lots', 'Our Approach', 'For Producers', 'Traceability', 'About Us', 'Contact'],
+  nav: ['Our Coffees', 'For Producers', 'Our Approach', 'Traceability', 'About Us', 'Contact'],
   header: {
     home: 'Brothers Coffee, home',
     mainNav: 'Main navigation',

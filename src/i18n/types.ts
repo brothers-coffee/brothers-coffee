@@ -17,7 +17,7 @@ export type Messages = {
   lang: {
     label: string
   }
-  nav: [string, string, string, string, string, string, string, string]
+  nav: [string, string, string, string, string, string]
   header: {
     home: string
     mainNav: string
