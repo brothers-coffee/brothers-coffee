@@ -38,8 +38,7 @@ const navItems = [
   { label: 4, href: '#/producers', page: 'producers' as Page },
   { label: 5, href: '#/traceability', page: 'traceability' as Page },
   { label: 6, href: '#/about', page: 'about' as Page },
-  { label: 7, href: '#', page: 'home' as Page, disabled: true }, // Origin Stories - not implemented
-  { label: 8, href: '#contacto', page: 'home' as Page },
+  { label: 7, href: '#contacto', page: 'home' as Page },
 ]
 
 const lotOrder = { disponible: 0, consultar: 1, agotado: 2 } as const
@@ -155,7 +154,7 @@ function App() {
         </a>
 
         <nav className="desktop-nav" aria-label={copy.header.mainNav}>
-          {navItems.filter(item => !item.disabled).slice(0, 5).map((item) => (
+          {navItems.map((item) => (
             <a key={item.href} href={item.href}>{copy.nav[item.label]}</a>
           ))}
         </nav>
@@ -183,7 +182,7 @@ function App() {
 
         {menuOpen && (
           <nav className="mobile-nav" aria-label={copy.header.mobileNav}>
-            {navItems.filter(item => !item.disabled).map((item) => (
+            {navItems.map((item) => (
               <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
                 {copy.nav[item.label]} <ChevronRight size={18} />
               </a>
@@ -546,7 +545,7 @@ function App() {
         <div className="footer-links">
           <div>
             <span>{copy.footer.explore}</span>
-            {navItems.filter(item => !item.disabled).map((item) => (
+            {navItems.map((item) => (
               <a key={item.href} href={item.href}>{copy.nav[item.label]}</a>
             ))}
           </div>

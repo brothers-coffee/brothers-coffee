@@ -39,7 +39,7 @@
 
 .desktop-nav {
   display: flex;
-  gap: clamp(22px, 3vw, 46px);
+  gap: clamp(18px, 2.2vw, 38px);
   font-size: 13px;
   letter-spacing: 0.08em;
 }
@@ -106,6 +106,7 @@
   min-height: 760px;
   height: 100svh;
   color: var(--paper);
+  padding-top: 78px;
 }
 
 .hero-image,
@@ -118,22 +119,24 @@
 
 .hero-image {
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 35%;
   animation: heroScale 1.5s ease-out both;
 }
 
 .hero-shade {
   background:
-    linear-gradient(90deg, rgba(7, 25, 18, 0.8) 0%, rgba(7, 25, 18, 0.42) 50%, rgba(7, 25, 18, 0.07) 80%),
-    linear-gradient(0deg, rgba(7, 25, 18, 0.42), transparent 45%);
+    linear-gradient(90deg, rgba(7, 25, 18, 0.88) 0%, rgba(7, 25, 18, 0.52) 50%, rgba(7, 25, 18, 0.12) 80%),
+    linear-gradient(0deg, rgba(7, 25, 18, 0.5), transparent 55%);
 }
 
 .hero-content {
   position: absolute;
   z-index: 2;
   left: 8vw;
-  bottom: 11vh;
+  bottom: 12vh;
+  max-height: calc(100vh - 78px - 10vh);
   width: min(790px, 80vw);
+  overflow: visible;
 }
 
 .hero-kicker,
@@ -1138,17 +1141,18 @@ footer {
   }
 
   .hero-image {
-    object-position: 46% 36%;
+    object-position: 46% 32%;
   }
 
   .hero-shade {
-    background: linear-gradient(0deg, rgba(7, 25, 18, 0.88) 5%, rgba(7, 25, 18, 0.15) 85%);
+    background: linear-gradient(0deg, rgba(7, 25, 18, 0.92) 5%, rgba(7, 25, 18, 0.25) 80%);
   }
 
   .hero-content {
     left: 6vw;
-    bottom: 7vh;
+    bottom: 9vh;
     width: 88vw;
+    max-height: calc(92vh - 78px - 8vh);
   }
 
   h1 {
@@ -1329,14 +1333,14 @@ footer {
   font-size: clamp(36px, 5vw, 52px);
   font-weight: 400;
   line-height: 1.15;
-  color: var(--forest);
+  color: var(--green);
   margin: 20px 0 30px;
 }
 
 .page-intro {
   font-size: 18px;
   line-height: 1.7;
-  color: var(--sage);
+  color: #66726b;
   margin-bottom: 24px;
 }
 
@@ -1357,14 +1361,14 @@ footer {
 .principle-card h3 {
   font-size: 20px;
   font-weight: 500;
-  color: var(--forest);
+  color: var(--green);
   margin-bottom: 16px;
 }
 
 .principle-card p {
   font-size: 15px;
   line-height: 1.6;
-  color: var(--sage);
+  color: #66726b;
 }
 
 .content-block {
@@ -1378,14 +1382,14 @@ footer {
 .content-block h2 {
   font-size: 26px;
   font-weight: 500;
-  color: var(--forest);
+  color: var(--green);
   margin-bottom: 28px;
 }
 
 .content-block p {
   font-size: 16px;
   line-height: 1.7;
-  color: var(--sage);
+  color: #66726b;
   margin-bottom: 20px;
 }
 
@@ -1402,7 +1406,7 @@ footer {
   padding: 12px 0;
   font-size: 15px;
   line-height: 1.6;
-  color: var(--sage);
+  color: #66726b;
   border-bottom: 1px solid #e8e6df;
 }
 
@@ -1425,15 +1429,15 @@ footer {
   padding: 12px 0;
   font-size: 16px;
   line-height: 1.7;
-  color: var(--sage);
+  color: #66726b;
 }
 
 .disclaimer {
   padding: 24px;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--sage);
-  background: rgba(217, 160, 125, 0.08);
+  color: #5a4a3a;
+  background: rgba(217, 160, 125, 0.12);
   border-left: 3px solid var(--copper);
   margin-top: 40px;
 }

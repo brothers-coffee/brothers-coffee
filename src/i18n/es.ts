@@ -9,7 +9,7 @@ export const es = {
   lang: {
     label: 'Idioma',
   },
-  nav: ['Origen', 'Nuestros cafés', 'Lotes', 'Nuestra forma de trabajar', 'Para productores', 'Trazabilidad', 'Nosotros', 'Historias de origen', 'Contacto'],
+  nav: ['Origen', 'Nuestros cafés', 'Lotes', 'Nuestra forma de trabajar', 'Para productores', 'Trazabilidad', 'Nosotros', 'Contacto'],
   header: {
     home: 'Brothers Coffee, inicio',
     mainNav: 'Navegación principal',
