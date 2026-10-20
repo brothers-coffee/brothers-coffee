@@ -17,7 +17,7 @@ export type Messages = {
   lang: {
     label: string
   }
-  nav: [string, string, string, string, string]
+  nav: [string, string, string, string, string, string, string, string, string]
   header: {
     home: string
     mainNav: string
@@ -152,5 +152,42 @@ export type Messages = {
     explore: string
     destination: string
     places: [string, string, string, string]
+  }
+  approach: {
+    label: string
+    title: string
+    intro: string
+    principles: [
+      { title: string; body: string },
+      { title: string; body: string },
+      { title: string; body: string },
+      { title: string; body: string },
+    ]
+    cta: string
+  }
+  traceability: {
+    label: string
+    title: string
+    intro: string
+    whatCanBeShown: string
+    items: [string, string, string, string, string]
+    disclaimer: string
+  }
+  about: {
+    label: string
+    title: string
+    intro: string
+    experience: string
+    cta: string
+  }
+  producers: {
+    label: string
+    title: string
+    intro: string
+    howItWorks: string
+    steps: [string, string, string, string]
+    whatToSend: string
+    fields: [string, string, string, string, string, string]
+    cta: string
   }
 }

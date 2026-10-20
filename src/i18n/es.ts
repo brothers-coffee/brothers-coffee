@@ -9,7 +9,7 @@ export const es = {
   lang: {
     label: 'Idioma',
   },
-  nav: ['Origen', 'Nuestros cafés', 'Lotes', 'Nuestra forma de trabajar', 'Contacto'],
+  nav: ['Origen', 'Nuestros cafés', 'Lotes', 'Nuestra forma de trabajar', 'Para productores', 'Trazabilidad', 'Nosotros', 'Historias de origen', 'Contacto'],
   header: {
     home: 'Brothers Coffee, inicio',
     mainNav: 'Navegación principal',
@@ -54,10 +54,10 @@ export const es = {
   coffees: {
     label: 'Nuestros cafés',
     overline: 'Conozca los cafés disponibles',
-    title: 'Cuéntenos qué variedades,',
-    titleEm: 'perfiles, volúmenes y fechas de compra está buscando.',
+    title: 'Consultar',
+    titleEm: 'cafés disponibles',
     intro:
-      'Compartiremos la información de los lotes disponible y ayudaremos a identificar opciones relevantes.',
+      'Cuéntenos qué variedades, perfiles, volúmenes y fechas de compra está buscando. Compartiremos la información de los lotes disponible y ayudaremos a identificar opciones relevantes.',
     inquire: 'Ver lotes de café',
     cards: [
       {
@@ -177,5 +177,78 @@ export const es = {
     explore: 'Explorar',
     destination: 'Destino',
     places: ['Honduras', 'Norteamérica', 'Europa', 'Asia'],
+  },
+  approach: {
+    label: 'Nuestra forma de trabajar',
+    title: 'Un proceso claro, construido con confianza.',
+    intro:
+      'Nuestra forma de trabajar reúne la presentación cuidadosa de los lotes, la coordinación con aliados de origen y la comunicación directa con compradores. Buscamos que cada oportunidad sea fácil de entender, aclarando qué está confirmado, qué falta por verificar y cuál será el siguiente paso.',
+    principles: [
+      {
+        title: 'Calidad con información',
+        body: 'Compartimos datos de calidad y características solo cuando están disponibles y respaldados.',
+      },
+      {
+        title: 'Alianzas de origen',
+        body: 'Coordinamos capacidades con productores y aliados; no afirmamos hacer todas las etapas directamente.',
+      },
+      {
+        title: 'Transparencia',
+        body: 'Separamos la información confirmada de los datos pendientes de validación.',
+      },
+      {
+        title: 'Relaciones de largo plazo',
+        body: 'Buscamos comunicación clara, compromisos realistas y oportunidades comerciales viables.',
+      },
+    ],
+    cta: 'Hable con nuestro equipo',
+  },
+  traceability: {
+    label: 'Trazabilidad',
+    title: 'Conozca qué información está documentada.',
+    intro:
+      'Para cada lote, la información disponible puede incluir origen, variedad, proceso, cosecha, volumen y datos de calidad cuando estén confirmados. Los registros y documentos que pueden compartirse dependen del lote y de los aliados involucrados. La información de trazabilidad no debe confundirse con una certificación.',
+    whatCanBeShown: 'Qué información puede mostrarse',
+    items: [
+      'Datos identificativos del lote y origen general',
+      'Variedad, proceso y cosecha, si están confirmados',
+      'Información de calidad documentada',
+      'Documentos disponibles para compartir, sujeto a autorización',
+      'Fecha de actualización y contacto para consultas',
+    ],
+    disclaimer:
+      'No afirmamos que todos los cafés son orgánicos, regenerativos, certificados o libres de deforestación sin evidencia vigente. No prometemos impactos sociales o ambientales sin datos verificables.',
+  },
+  about: {
+    label: 'Nosotros',
+    title: 'Un proyecto de café guiado por las relaciones.',
+    intro:
+      'Brothers Coffee está construyendo una red que conecta productores de café de especialidad, aliados de origen y compradores internacionales. Nos enfocamos en presentar los lotes con claridad, coordinar conversaciones relevantes y construir relaciones comerciales basadas en transparencia y cumplimiento.',
+    experience:
+      'Nuestro CEO aporta diez años de experiencia en exportación de café de especialidad, desarrollada a través de otra empresa. Ese aprendizaje orienta nuestra manera de abordar la calidad, la coordinación y las relaciones con compradores en Brothers Coffee.',
+    cta: 'Conózcanos',
+  },
+  producers: {
+    label: 'Para productores',
+    title: '¿Produce café de especialidad?',
+    intro:
+      'Nos interesa conocer productores y lotes con información clara sobre origen, variedad, proceso, cosecha y disponibilidad. Comparta sus datos para conocer su café y conversar sobre si puede encajar con los requisitos de compradores. Presentar un lote no garantiza una compra; procuramos comunicar con claridad los siguientes pasos.',
+    howItWorks: 'Cómo funciona',
+    steps: [
+      'Comparta la información básica del productor y del lote.',
+      'Revisamos los datos disponibles y solicitamos aclaraciones si hacen falta.',
+      'Si existe una oportunidad relevante, conversamos sobre evaluación, muestras y requisitos.',
+      'Antes de avanzar, aclaramos condiciones, responsabilidades y próximos pasos.',
+    ],
+    whatToSend: 'Qué información enviar',
+    fields: [
+      'Nombre y comunidad/región',
+      'Teléfono o WhatsApp y correo (si dispone)',
+      'Variedad y proceso',
+      'Año de cosecha y volumen estimado',
+      'Información de calidad disponible',
+      'Fotos del lote o del proceso (opcional)',
+    ],
+    cta: 'Presentar un lote',
   },
 } satisfies Messages

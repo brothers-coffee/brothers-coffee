@@ -28,7 +28,19 @@ const whatsappLabel = '+504 9569-3232'
 const asset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
-const navHrefs = ['#origen', '#cafes', '#lotes', '#proceso', '#impacto'] as const
+type Page = 'home' | 'approach' | 'producers' | 'traceability' | 'about'
+
+const navItems = [
+  { label: 0, href: '#origen', page: 'home' as Page },
+  { label: 1, href: '#cafes', page: 'home' as Page },
+  { label: 2, href: '#lotes', page: 'home' as Page },
+  { label: 3, href: '#/approach', page: 'approach' as Page },
+  { label: 4, href: '#/producers', page: 'producers' as Page },
+  { label: 5, href: '#/traceability', page: 'traceability' as Page },
+  { label: 6, href: '#/about', page: 'about' as Page },
+  { label: 7, href: '#', page: 'home' as Page, disabled: true }, // Origin Stories - not implemented
+  { label: 8, href: '#contacto', page: 'home' as Page },
+]
 
 const lotOrder = { disponible: 0, consultar: 1, agotado: 2 } as const
 
@@ -63,10 +75,20 @@ const valueIcons = [Globe2, Leaf, Coffee]
 
 const text = (value: Localized, locale: Locale) => value[locale]
 
+function getPageFromHash(): Page {
+  const hash = window.location.hash
+  if (hash.startsWith('#/approach')) return 'approach'
+  if (hash.startsWith('#/producers')) return 'producers'
+  if (hash.startsWith('#/traceability')) return 'traceability'
+  if (hash.startsWith('#/about')) return 'about'
+  return 'home'
+}
+
 function App() {
   const [locale, setLocale] = useState<Locale>(() => prepareLocale())
   const [menuOpen, setMenuOpen] = useState(false)
   const [mailOpened, setMailOpened] = useState(false)
+  const [currentPage, setCurrentPage] = useState<Page>(() => getPageFromHash())
   const copy = messages[locale]
 
   useEffect(() => {
@@ -74,10 +96,19 @@ function App() {
       const next = localeFromLocation()
       applyDocument(next)
       setLocale(next)
+      setCurrentPage(getPageFromHash())
+    }
+    const onHash = () => {
+      setCurrentPage(getPageFromHash())
+      if (menuOpen) setMenuOpen(false)
     }
     window.addEventListener('popstate', onPop)
-    return () => window.removeEventListener('popstate', onPop)
-  }, [])
+    window.addEventListener('hashchange', onHash)
+    return () => {
+      window.removeEventListener('popstate', onPop)
+      window.removeEventListener('hashchange', onHash)
+    }
+  }, [menuOpen])
 
   const chooseLocale = (next: Locale) => {
     rememberLocale(next)
@@ -105,15 +136,28 @@ function App() {
     setMailOpened(true)
   }
 
+  const handleProducerContact = () => {
+    const fields = copy.producers.fields.map((field, i) => `${i + 1}. ${field}`).join('\n')
+    const message = `${copy.producers.title}\n\n${copy.producers.whatToSend}:\n${fields}`
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+    window.open(whatsappUrl, '_blank', 'noreferrer')
+  }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+  }, [currentPage])
+
   return (
     <div className="site-shell">
       <header className="site-header">
-        <a className="brand" href="#inicio" aria-label={copy.header.home}>
+        <a className="brand" href="#" aria-label={copy.header.home}>
           <img className="brand-logo" src={asset('/images/logos/negativo.png')} alt="" />
         </a>
 
         <nav className="desktop-nav" aria-label={copy.header.mainNav}>
-          {copy.nav.map((label, index) => <a key={navHrefs[index]} href={navHrefs[index]}>{label}</a>)}
+          {navItems.filter(item => !item.disabled).slice(0, 5).map((item) => (
+            <a key={item.href} href={item.href}>{copy.nav[item.label]}</a>
+          ))}
         </nav>
 
         <div className="header-tools">
@@ -139,260 +183,360 @@ function App() {
 
         {menuOpen && (
           <nav className="mobile-nav" aria-label={copy.header.mobileNav}>
-            {copy.nav.map((label, index) => (
-              <a key={navHrefs[index]} href={navHrefs[index]} onClick={() => setMenuOpen(false)}>
-                {label} <ChevronRight size={18} />
+            {navItems.filter(item => !item.disabled).map((item) => (
+              <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
+                {copy.nav[item.label]} <ChevronRight size={18} />
               </a>
             ))}
-            <a href="#contacto" onClick={() => setMenuOpen(false)}>
-              {copy.header.samples} <ChevronRight size={18} />
-            </a>
           </nav>
         )}
       </header>
 
       <main>
-        <section className="hero-section" id="inicio">
-          <img
-            className="hero-image"
-            src={asset('/images/equipo.jpg')}
-            alt={copy.hero.imageAlt}
-          />
-          <div className="hero-shade" />
-          <div className="hero-content">
-            <p className="hero-kicker"><span />Marcala, Honduras</p>
-            <h1>{copy.hero.title}<br /><em>{copy.hero.titleEm}</em></h1>
-            <p className="hero-intro">{copy.hero.intro}</p>
-            <div className="hero-actions">
-              <a className="button button-light" href="#cafes">
-                {copy.hero.coffees} <ArrowRight size={18} />
-              </a>
-              <a className="text-link light" href="#origen">
-                {copy.hero.origin} <ArrowDown size={17} />
-              </a>
-            </div>
-          </div>
-          <div className="hero-side-note"><span>14°09′ N</span><span>{copy.hero.west}</span></div>
-        </section>
-
-        <section className="origin-intro section" id="origen">
-          <div className="section-label"><p>{copy.origin.label}</p></div>
-          <div className="origin-copy">
-            <p className="overline">{copy.origin.overline}</p>
-            <h2>{copy.origin.title}<br /><em>{copy.origin.titleEm}</em></h2>
-            <div className="origin-body">
-              {copy.origin.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            </div>
-          </div>
-        </section>
-
-        <section className="origin-gallery section">
-          <div className="gallery-main">
-            <img src={asset('/images/drying.jpg')} alt={copy.gallery.dryingAlt} />
-            <span className="image-caption">{copy.gallery.dryingCaption}</span>
-          </div>
-          <div className="gallery-secondary">
-            <div className="gallery-stat">
-              <Mountain size={28} strokeWidth={1.5} />
-              <p><strong>Marcala</strong><span>{copy.gallery.place}</span></p>
-            </div>
-            <img src={asset('/images/origin.jpg')} alt={copy.gallery.teamAlt} />
-          </div>
-        </section>
-
-        <section className="finca-mosaic" aria-label={copy.gallery.farmLabel}>
-          <figure className="finca-main">
-            <img src={asset('/images/patio.jpg')} alt={copy.gallery.patiosAlt} />
-            <span className="image-caption">{copy.gallery.patiosCaption}</span>
-          </figure>
-          <div className="finca-side">
-            <img src={asset('/images/amanecer.jpg')} alt={copy.gallery.dawnAlt} />
-            <img src={asset('/images/conversacion.jpg')} alt={copy.gallery.conversationAlt} />
-          </div>
-        </section>
-
-        <section className="coffee-section section" id="cafes">
-          <div className="section-label section-label-light"><p>{copy.coffees.label}</p></div>
-          <div className="coffee-heading">
-            <p className="overline">{copy.coffees.overline}</p>
-            <h2>{copy.coffees.title}<br /><em>{copy.coffees.titleEm}</em></h2>
-            <p>{copy.coffees.intro}</p>
-          </div>
-
-          <div className="coffee-cards">
-            {copy.coffees.cards.map((coffee) => (
-              <article className="coffee-card" key={coffee.id}>
-                <div className="card-image-wrap">
-                  <img src={coffeeImages[coffee.id]} alt={coffee.imageAlt} />
+        {currentPage === 'home' && (
+          <>
+            <section className="hero-section" id="inicio">
+              <img
+                className="hero-image"
+                src={asset('/images/equipo.jpg')}
+                alt={copy.hero.imageAlt}
+              />
+              <div className="hero-shade" />
+              <div className="hero-content">
+                <p className="hero-kicker"><span />Marcala, Honduras</p>
+                <h1>{copy.hero.title}<br /><em>{copy.hero.titleEm}</em></h1>
+                <p className="hero-intro">{copy.hero.intro}</p>
+                <div className="hero-actions">
+                  <a className="button button-light" href="#cafes">
+                    {copy.hero.coffees} <ArrowRight size={18} />
+                  </a>
+                  <a className="text-link light" href="#origen">
+                    {copy.hero.origin} <ArrowDown size={17} />
+                  </a>
                 </div>
-                <div className="card-copy">
-                  <p className="card-eyebrow">{coffee.eyebrow}</p>
-                  <h3>{coffee.title}</h3>
-                  <p>{coffee.description}</p>
-                  <ul>
-                    {coffee.details.map((detail) => (
-                      <li key={detail}><Check size={15} /> {detail}</li>
-                    ))}
-                  </ul>
-                  <a href="#contacto">{copy.coffees.inquire} <ArrowRight size={16} /></a>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+              </div>
+              <div className="hero-side-note"><span>14°09′ N</span><span>{copy.hero.west}</span></div>
+            </section>
 
-        <section className="lots-section section" id="lotes">
-          <div className="section-label"><p>{copy.lots.label}</p></div>
-          <div className="lots-heading">
-            <p className="overline">{copy.lots.overline}</p>
-            <h2>{copy.lots.title}<br /><em>{copy.lots.titleEm}</em></h2>
-            <p>{copy.lots.intro}</p>
-          </div>
-          <div className="lot-grid">
-            {lots.map((lot) => {
-              const producer = text(lot.producer, locale)
-              const altitude = text(lot.altitude, locale)
-              const volume = text(lot.volume, locale)
-              return (
-                <article className="lot-card" key={lot.id}>
-                  <div className="lot-image">
-                    <img src={asset(lot.image)} alt={text(lot.imageAlt, locale)} />
-                    <span className={`lot-status is-${lot.status}`}>{copy.lots.status[lot.status]}</span>
-                  </div>
-                  <div className="lot-copy">
-                    <p className="card-eyebrow">{text(lot.process, locale)}</p>
-                    <h3>{lot.name}</h3>
-                    <p className="lot-meta">
-                      {[lot.region, lot.variety, altitude].filter(Boolean).join(' · ')}
-                    </p>
-                    <p>{text(lot.notes, locale)}</p>
-                    <p className="lot-summary">{text(lot.summary, locale)}</p>
-                    <div className="lot-facts">
-                      {producer && <span>{producer}</span>}
-                      {lot.score && <span>{copy.lots.score(lot.score)}</span>}
-                      {volume && <span>{volume}</span>}
+            <section className="origin-intro section" id="origen">
+              <div className="section-label"><p>{copy.origin.label}</p></div>
+              <div className="origin-copy">
+                <p className="overline">{copy.origin.overline}</p>
+                <h2>{copy.origin.title}<br /><em>{copy.origin.titleEm}</em></h2>
+                <div className="origin-body">
+                  {copy.origin.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
+              </div>
+            </section>
+
+            <section className="origin-gallery section">
+              <div className="gallery-main">
+                <img src={asset('/images/drying.jpg')} alt={copy.gallery.dryingAlt} />
+                <span className="image-caption">{copy.gallery.dryingCaption}</span>
+              </div>
+              <div className="gallery-secondary">
+                <div className="gallery-stat">
+                  <Mountain size={28} strokeWidth={1.5} />
+                  <p><strong>Marcala</strong><span>{copy.gallery.place}</span></p>
+                </div>
+                <img src={asset('/images/origin.jpg')} alt={copy.gallery.teamAlt} />
+              </div>
+            </section>
+
+            <section className="finca-mosaic" aria-label={copy.gallery.farmLabel}>
+              <figure className="finca-main">
+                <img src={asset('/images/patio.jpg')} alt={copy.gallery.patiosAlt} />
+                <span className="image-caption">{copy.gallery.patiosCaption}</span>
+              </figure>
+              <div className="finca-side">
+                <img src={asset('/images/amanecer.jpg')} alt={copy.gallery.dawnAlt} />
+                <img src={asset('/images/conversacion.jpg')} alt={copy.gallery.conversationAlt} />
+              </div>
+            </section>
+
+            <section className="coffee-section section" id="cafes">
+              <div className="section-label section-label-light"><p>{copy.coffees.label}</p></div>
+              <div className="coffee-heading">
+                <p className="overline">{copy.coffees.overline}</p>
+                <h2>{copy.coffees.title}<br /><em>{copy.coffees.titleEm}</em></h2>
+                <p>{copy.coffees.intro}</p>
+              </div>
+
+              <div className="coffee-cards">
+                {copy.coffees.cards.map((coffee) => (
+                  <article className="coffee-card" key={coffee.id}>
+                    <div className="card-image-wrap">
+                      <img src={coffeeImages[coffee.id]} alt={coffee.imageAlt} />
                     </div>
-                    <a href="#contacto">{copy.lots.inquire} <ArrowRight size={16} /></a>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        </section>
-
-        <section className="process-section section" id="proceso">
-          <div className="section-label"><p>{copy.process.label}</p></div>
-          <div className="process-content">
-            <div className="process-heading">
-              <p className="overline">{copy.process.overline}</p>
-              <h2>{copy.process.title}<br /><em>{copy.process.titleEm}</em></h2>
-            </div>
-            <div className="process-list">
-              {copy.process.steps.map((step, index) => {
-                const Icon = processIcons[index]
-                return (
-                  <article key={step.title}>
-                    <Icon />
-                    <div><h3>{step.title}</h3><p>{step.body}</p></div>
+                    <div className="card-copy">
+                      <p className="card-eyebrow">{coffee.eyebrow}</p>
+                      <h3>{coffee.title}</h3>
+                      <p>{coffee.description}</p>
+                      <ul>
+                        {coffee.details.map((detail) => (
+                          <li key={detail}><Check size={15} /> {detail}</li>
+                        ))}
+                      </ul>
+                      <a href="#contacto">{copy.coffees.inquire} <ArrowRight size={16} /></a>
+                    </div>
                   </article>
-                )
-              })}
+                ))}
+              </div>
+            </section>
+
+            <section className="lots-section section" id="lotes">
+              <div className="section-label"><p>{copy.lots.label}</p></div>
+              <div className="lots-heading">
+                <p className="overline">{copy.lots.overline}</p>
+                <h2>{copy.lots.title}<br /><em>{copy.lots.titleEm}</em></h2>
+                <p>{copy.lots.intro}</p>
+              </div>
+              <div className="lot-grid">
+                {lots.map((lot) => {
+                  const producer = text(lot.producer, locale)
+                  const altitude = text(lot.altitude, locale)
+                  const volume = text(lot.volume, locale)
+                  return (
+                    <article className="lot-card" key={lot.id}>
+                      <div className="lot-image">
+                        <img src={asset(lot.image)} alt={text(lot.imageAlt, locale)} />
+                        <span className={`lot-status is-${lot.status}`}>{copy.lots.status[lot.status]}</span>
+                      </div>
+                      <div className="lot-copy">
+                        <p className="card-eyebrow">{text(lot.process, locale)}</p>
+                        <h3>{lot.name}</h3>
+                        <p className="lot-meta">
+                          {[lot.region, lot.variety, altitude].filter(Boolean).join(' · ')}
+                        </p>
+                        <p>{text(lot.notes, locale)}</p>
+                        <p className="lot-summary">{text(lot.summary, locale)}</p>
+                        <div className="lot-facts">
+                          {producer && <span>{producer}</span>}
+                          {lot.score && <span>{copy.lots.score(lot.score)}</span>}
+                          {volume && <span>{volume}</span>}
+                        </div>
+                        <a href="#contacto">{copy.lots.inquire} <ArrowRight size={16} /></a>
+                      </div>
+                    </article>
+                  )
+                })}
+              </div>
+            </section>
+
+            <section className="process-section section" id="proceso">
+              <div className="section-label"><p>{copy.process.label}</p></div>
+              <div className="process-content">
+                <div className="process-heading">
+                  <p className="overline">{copy.process.overline}</p>
+                  <h2>{copy.process.title}<br /><em>{copy.process.titleEm}</em></h2>
+                </div>
+                <div className="process-list">
+                  {copy.process.steps.map((step, index) => {
+                    const Icon = processIcons[index]
+                    return (
+                      <article key={step.title}>
+                        <Icon />
+                        <div><h3>{step.title}</h3><p>{step.body}</p></div>
+                      </article>
+                    )
+                  })}
+                </div>
+              </div>
+              <div className="section-cta">
+                <a className="text-link" href="#/approach">
+                  {copy.approach.label} <ArrowRight size={17} />
+                </a>
+              </div>
+            </section>
+
+            <section className="manifesto-section" id="impacto">
+              <img
+                className="manifesto-media manifesto-fallback"
+                src={asset('/images/amanecer.jpg')}
+                alt={copy.gallery.dawnAlt}
+              />
+              <video
+                className="manifesto-media"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={asset('/images/amanecer.jpg')}
+                aria-hidden="true"
+              >
+                <source src={asset('/videos/finca.mp4')} type="video/mp4" />
+              </video>
+              <div className="manifesto-shade" />
+              <div className="manifesto-content">
+                <Quote size={38} strokeWidth={1} />
+                <blockquote>{copy.manifesto.quote}</blockquote>
+                <p>{copy.manifesto.caption}</p>
+              </div>
+            </section>
+
+            <section className="values-section section">
+              <div className="section-label"><p>{copy.values.label}</p></div>
+              <div className="values-grid">
+                {copy.values.items.map((item, index) => {
+                  const Icon = valueIcons[index]
+                  return (
+                    <article key={item.title}>
+                      <Icon />
+                      <h3>{item.title}</h3>
+                      <p>{item.body}</p>
+                    </article>
+                  )
+                })}
+              </div>
+            </section>
+
+            <section className="contact-section section" id="contacto">
+              <div className="contact-copy">
+                <p className="overline">{copy.contact.overline}</p>
+                <h2>{copy.contact.title}<br />{copy.contact.titleRest}<em>{copy.contact.titleEm}</em></h2>
+                <p>{copy.contact.intro}</p>
+                <div className="contact-channels">
+                  <a className="contact-channel" href={`mailto:${contactEmail}`}>
+                    <Mail size={18} />
+                    <span>{copy.contact.email}</span>
+                    <strong>{contactEmail}</strong>
+                  </a>
+                  <a className="contact-channel" href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">
+                    <span>WhatsApp</span>
+                    <strong>{whatsappLabel}</strong>
+                  </a>
+                  <div className="contact-location">
+                    <span>{copy.contact.origin}</span><strong>Marcala, La Paz</strong><small>{copy.contact.region}</small>
+                  </div>
+                </div>
+              </div>
+
+              <form className="contact-form" onSubmit={handleSubmit}>
+                <div className="field-row">
+                  <label>{copy.form.name}<input name="name" placeholder={copy.form.namePlaceholder} required /></label>
+                  <label>{copy.form.company}<input name="company" placeholder={copy.form.companyPlaceholder} /></label>
+                </div>
+                <label>{copy.form.email}<input name="email" type="email" placeholder={copy.form.emailPlaceholder} required /></label>
+                <label>
+                  {copy.form.interest}
+                  <select name="interest" defaultValue="">
+                    <option value="" disabled>{copy.form.interestPlaceholder}</option>
+                    {copy.form.interestOptions.map((option) => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>{copy.form.message}<textarea name="message" rows={4} placeholder={copy.form.messagePlaceholder} /></label>
+                <button className="button button-copper" type="submit">
+                  {mailOpened ? <><Check size={18} /> {copy.form.submitDone}</> : <>{copy.form.submit} <ArrowRight size={18} /></>}
+                </button>
+                <small>
+                  {mailOpened ? copy.form.opened(contactEmail) : copy.form.hint(contactEmail)}
+                </small>
+              </form>
+            </section>
+          </>
+        )}
+
+        {currentPage === 'approach' && (
+          <section className="page-section section">
+            <div className="page-header">
+              <div className="section-label"><p>{copy.approach.label}</p></div>
+              <h1>{copy.approach.title}</h1>
+              <p className="page-intro">{copy.approach.intro}</p>
             </div>
-          </div>
-        </section>
-
-        <section className="manifesto-section" id="impacto">
-          <img
-            className="manifesto-media manifesto-fallback"
-            src={asset('/images/amanecer.jpg')}
-            alt={copy.gallery.dawnAlt}
-          />
-          <video
-            className="manifesto-media"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster={asset('/images/amanecer.jpg')}
-            aria-hidden="true"
-          >
-            <source src={asset('/videos/finca.mp4')} type="video/mp4" />
-          </video>
-          <div className="manifesto-shade" />
-          <div className="manifesto-content">
-            <Quote size={38} strokeWidth={1} />
-            <blockquote>{copy.manifesto.quote}</blockquote>
-            <p>{copy.manifesto.caption}</p>
-          </div>
-        </section>
-
-        <section className="values-section section">
-          <div className="section-label"><p>{copy.values.label}</p></div>
-          <div className="values-grid">
-            {copy.values.items.map((item, index) => {
-              const Icon = valueIcons[index]
-              return (
-                <article key={item.title}>
-                  <Icon />
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
+            <div className="principles-grid">
+              {copy.approach.principles.map((principle) => (
+                <article key={principle.title} className="principle-card">
+                  <h3>{principle.title}</h3>
+                  <p>{principle.body}</p>
                 </article>
-              )
-            })}
-          </div>
-        </section>
+              ))}
+            </div>
+            <div className="page-cta">
+              <a className="button button-copper" href="#contacto">
+                {copy.approach.cta} <ArrowRight size={18} />
+              </a>
+            </div>
+          </section>
+        )}
 
-        <section className="contact-section section" id="contacto">
-          <div className="contact-copy">
-            <p className="overline">{copy.contact.overline}</p>
-            <h2>{copy.contact.title}<br />{copy.contact.titleRest}<em>{copy.contact.titleEm}</em></h2>
-            <p>{copy.contact.intro}</p>
-            <div className="contact-channels">
-              <a className="contact-channel" href={`mailto:${contactEmail}`}>
-                <Mail size={18} />
-                <span>{copy.contact.email}</span>
-                <strong>{contactEmail}</strong>
-              </a>
-              <a className="contact-channel" href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">
-                <span>WhatsApp</span>
-                <strong>{whatsappLabel}</strong>
-              </a>
-              <div className="contact-location">
-                <span>{copy.contact.origin}</span><strong>Marcala, La Paz</strong><small>{copy.contact.region}</small>
+        {currentPage === 'traceability' && (
+          <section className="page-section section">
+            <div className="page-header">
+              <div className="section-label"><p>{copy.traceability.label}</p></div>
+              <h1>{copy.traceability.title}</h1>
+              <p className="page-intro">{copy.traceability.intro}</p>
+            </div>
+            <div className="content-block">
+              <h2>{copy.traceability.whatCanBeShown}</h2>
+              <ul className="info-list">
+                {copy.traceability.items.map((item) => (
+                  <li key={item}><Check size={18} /> {item}</li>
+                ))}
+              </ul>
+              <p className="disclaimer">{copy.traceability.disclaimer}</p>
+            </div>
+          </section>
+        )}
+
+        {currentPage === 'about' && (
+          <section className="page-section section">
+            <div className="page-header">
+              <div className="section-label"><p>{copy.about.label}</p></div>
+              <h1>{copy.about.title}</h1>
+              <div className="about-content">
+                <img src={asset('/images/origin.jpg')} alt={copy.gallery.teamAlt} className="about-image" />
+                <div>
+                  <p className="page-intro">{copy.about.intro}</p>
+                  <p>{copy.about.experience}</p>
+                </div>
               </div>
             </div>
-          </div>
-
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="field-row">
-              <label>{copy.form.name}<input name="name" placeholder={copy.form.namePlaceholder} required /></label>
-              <label>{copy.form.company}<input name="company" placeholder={copy.form.companyPlaceholder} /></label>
+            <div className="page-cta">
+              <a className="button button-copper" href="#contacto">
+                {copy.about.cta} <ArrowRight size={18} />
+              </a>
             </div>
-            <label>{copy.form.email}<input name="email" type="email" placeholder={copy.form.emailPlaceholder} required /></label>
-            <label>
-              {copy.form.interest}
-              <select name="interest" defaultValue="">
-                <option value="" disabled>{copy.form.interestPlaceholder}</option>
-                {copy.form.interestOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
+          </section>
+        )}
+
+        {currentPage === 'producers' && (
+          <section className="page-section section">
+            <div className="page-header">
+              <div className="section-label"><p>{copy.producers.label}</p></div>
+              <h1>{copy.producers.title}</h1>
+              <p className="page-intro">{copy.producers.intro}</p>
+            </div>
+            <div className="content-block">
+              <h2>{copy.producers.howItWorks}</h2>
+              <ol className="steps-list">
+                {copy.producers.steps.map((step, index) => (
+                  <li key={index}>{step}</li>
                 ))}
-              </select>
-            </label>
-            <label>{copy.form.message}<textarea name="message" rows={4} placeholder={copy.form.messagePlaceholder} /></label>
-            <button className="button button-copper" type="submit">
-              {mailOpened ? <><Check size={18} /> {copy.form.submitDone}</> : <>{copy.form.submit} <ArrowRight size={18} /></>}
-            </button>
-            <small>
-              {mailOpened ? copy.form.opened(contactEmail) : copy.form.hint(contactEmail)}
-            </small>
-          </form>
-        </section>
+              </ol>
+            </div>
+            <div className="content-block">
+              <h2>{copy.producers.whatToSend}</h2>
+              <ul className="info-list">
+                {copy.producers.fields.map((field) => (
+                  <li key={field}><Check size={18} /> {field}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="page-cta">
+              <button className="button button-copper" onClick={handleProducerContact}>
+                {copy.producers.cta} <ArrowRight size={18} />
+              </button>
+            </div>
+          </section>
+        )}
       </main>
 
       <footer>
         <div className="footer-brand">
-          <a className="brand" href="#inicio" aria-label={copy.header.home}>
+          <a className="brand" href="#" aria-label={copy.header.home}>
             <img className="brand-logo brand-logo-footer" src={asset('/images/logos/negativo.png')} alt="" />
           </a>
           <p>{copy.footer.tagline}</p>
@@ -402,7 +546,9 @@ function App() {
         <div className="footer-links">
           <div>
             <span>{copy.footer.explore}</span>
-            {copy.nav.map((label, index) => <a key={navHrefs[index]} href={navHrefs[index]}>{label}</a>)}
+            {navItems.filter(item => !item.disabled).map((item) => (
+              <a key={item.href} href={item.href}>{copy.nav[item.label]}</a>
+            ))}
           </div>
           <div>
             <span>{copy.footer.destination}</span>

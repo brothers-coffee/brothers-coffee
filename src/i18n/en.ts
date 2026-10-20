@@ -8,7 +8,7 @@ export const en = {
   lang: {
     label: 'Language',
   },
-  nav: ['Origin', 'Our Coffees', 'Lots', 'Our Approach', 'Contact'],
+  nav: ['Origin', 'Our Coffees', 'Lots', 'Our Approach', 'For Producers', 'Traceability', 'About Us', 'Origin Stories', 'Contact'],
   header: {
     home: 'Brothers Coffee, home',
     mainNav: 'Main navigation',
@@ -53,10 +53,10 @@ export const en = {
   coffees: {
     label: 'Our coffees',
     overline: 'Explore available coffees',
-    title: 'Tell us what varieties,',
-    titleEm: 'profiles, volumes and timing you are sourcing.',
+    title: 'Explore',
+    titleEm: 'available coffees',
     intro:
-      'We will share the lot information currently available and help identify relevant options.',
+      'Tell us what varieties, profiles, volumes and timing you are sourcing. We will share the lot information currently available and help identify relevant options.',
     inquire: 'View coffee lots',
     cards: [
       {
@@ -176,5 +176,78 @@ export const en = {
     explore: 'Explore',
     destination: 'Destination',
     places: ['Honduras', 'North America', 'Europe', 'Asia'],
+  },
+  approach: {
+    label: 'Our approach',
+    title: 'A clear process, built on trust.',
+    intro:
+      'Our approach brings together careful lot presentation, coordination with origin partners and direct communication with buyers. We aim to make each opportunity easier to understand by clarifying what is known, what still needs confirmation and what the next step will be.',
+    principles: [
+      {
+        title: 'Quality with information',
+        body: 'We share quality data and characteristics only when they are available and supported.',
+      },
+      {
+        title: 'Origin partnerships',
+        body: 'We coordinate capabilities with producers and partners; we do not claim to do all stages directly.',
+      },
+      {
+        title: 'Transparency',
+        body: 'We separate confirmed information from data pending validation.',
+      },
+      {
+        title: 'Long-term relationships',
+        body: 'We seek clear communication, realistic commitments and viable commercial opportunities.',
+      },
+    ],
+    cta: 'Talk to our team',
+  },
+  traceability: {
+    label: 'Traceability',
+    title: 'Know what is documented.',
+    intro:
+      'For each lot, the information available may include origin, variety, process, harvest, volume and quality details when confirmed. The records and documents that can be shared depend on the lot and the partners involved. Traceability information should not be confused with a certification.',
+    whatCanBeShown: 'What information can be shown',
+    items: [
+      'Lot identification data and general origin',
+      'Variety, process and harvest, if confirmed',
+      'Documented quality information',
+      'Documents available for sharing, subject to authorization',
+      'Update date and contact for inquiries',
+    ],
+    disclaimer:
+      'We do not claim that all coffees are organic, regenerative, certified or free of deforestation without current evidence. We do not promise social or environmental impacts without verifiable data.',
+  },
+  about: {
+    label: 'About us',
+    title: 'A coffee business shaped by relationships.',
+    intro:
+      'Brothers Coffee is building a network that connects specialty coffee producers, origin partners and international buyers. Our work focuses on presenting lots clearly, coordinating the right conversations and building commercial relationships grounded in transparency and follow-through.',
+    experience:
+      'Our CEO brings ten years of specialty coffee export experience developed through another company. That experience informs the way we approach quality, coordination and buyer relationships at Brothers Coffee.',
+    cta: 'Get to know us',
+  },
+  producers: {
+    label: 'For producers',
+    title: 'Are you a specialty coffee producer?',
+    intro:
+      'We are interested in learning about producers and coffee lots with clear information on origin, variety, process, harvest and availability. Share your details so we can understand your coffee and discuss whether there may be a fit with buyer requirements. Submitting a lot does not guarantee a purchase; we aim to communicate the next steps clearly.',
+    howItWorks: 'How it works',
+    steps: [
+      'Share basic information about the producer and the lot.',
+      'We review the available data and request clarifications if needed.',
+      'If there is a relevant opportunity, we discuss evaluation, samples and requirements.',
+      'Before moving forward, we clarify conditions, responsibilities and next steps.',
+    ],
+    whatToSend: 'What information to send',
+    fields: [
+      'Name and community/region',
+      'Phone or WhatsApp and email (if available)',
+      'Variety and process',
+      'Harvest year and estimated volume',
+      'Available quality information',
+      'Photos of the lot or process (optional)',
+    ],
+    cta: 'Present a coffee lot',
   },
 } satisfies Messages
