@@ -28,13 +28,42 @@ export type Messages = {
     samples: string
   }
   hero: {
-    imageAlt: string
-    title: string
-    titleEm: string
-    intro: string
-    coffees: string
-    origin: string
-    west: string
+    label: string
+    slides: [
+      {
+        kicker: string
+        title: string
+        titleEm: string
+        intro: string
+        imageAlt: string
+        primary: string
+        secondary: string
+      },
+      {
+        kicker: string
+        title: string
+        titleEm: string
+        intro: string
+        imageAlt: string
+        primary: string
+      },
+      {
+        kicker: string
+        title: string
+        titleEm: string
+        intro: string
+        imageAlt: string
+        primary: string
+      },
+      {
+        kicker: string
+        title: string
+        titleEm: string
+        intro: string
+        imageAlt: string
+        primary: string
+      },
+    ]
   }
   origin: {
     label: string
@@ -169,6 +198,7 @@ export type Messages = {
   traceability: {
     label: string
     title: string
+    titleEm: string
     intro: string
     whatCanBeShown: string
     items: [string, string, string, string, string]
@@ -177,6 +207,7 @@ export type Messages = {
   about: {
     label: string
     title: string
+    titleEm: string
     intro: string
     experience: string
     cta: string
@@ -184,6 +215,7 @@ export type Messages = {
   producers: {
     label: string
     title: string
+    titleEm: string
     intro: string
     howItWorks: string
     steps: [string, string, string, string]

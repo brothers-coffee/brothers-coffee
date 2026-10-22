@@ -20,14 +20,43 @@ export const es = {
     samples: 'Solicitar muestras',
   },
   hero: {
-    imageAlt: 'Tres personas del equipo entre cafetos con cereza madura',
-    title: 'Café de especialidad,',
-    titleEm: 'construido a través de relaciones.',
-    intro:
-      'Conectamos productores de café de especialidad con compradores internacionales mediante lotes presentados con cuidado, aliados de origen confiables y comunicación transparente.',
-    coffees: 'Consultar cafés disponibles',
-    origin: 'Hablar con nuestro equipo',
-    west: '87°58′ O',
+    label: 'Imágenes del inicio',
+    slides: [
+      {
+        kicker: 'Marcala, Honduras',
+        title: 'Café de especialidad,',
+        titleEm: 'construido a través de relaciones.',
+        intro: 'Conectamos productores de especialidad con compradores internacionales.',
+        imageAlt: 'Productora de pie detrás de cerezas de café en secado, entre pinos',
+        primary: 'Consultar cafés disponibles',
+        secondary: 'Hablar con nuestro equipo',
+      },
+      {
+        kicker: 'Forma de trabajar',
+        title: 'Un proceso claro,',
+        titleEm: 'construido con confianza.',
+        intro:
+          'Presentamos cada lote con cuidado, coordinamos con aliados de origen y hablamos directo con el comprador.',
+        imageAlt: 'Productora con cerezas en las manos, frente a la montaña con neblina',
+        primary: 'Ver cómo trabajamos',
+      },
+      {
+        kicker: 'Para productores',
+        title: '¿Produce café',
+        titleEm: 'de especialidad?',
+        intro: 'Cuéntenos de su lote: origen, variedad, proceso, cosecha y disponibilidad.',
+        imageAlt: 'Familia de productores entre cafetos, con un niño en brazos',
+        primary: 'Presentar un lote',
+      },
+      {
+        kicker: 'Trazabilidad',
+        title: 'Conozca qué información',
+        titleEm: 'está documentada.',
+        intro: 'Origen, variedad, proceso, cosecha y calidad, cuando están confirmados para ese lote.',
+        imageAlt: 'Cerezas de café maduras en la rama, sostenidas por una mano',
+        primary: 'Ver la trazabilidad',
+      },
+    ],
   },
   origin: {
     label: 'Nuestro origen',
@@ -36,7 +65,7 @@ export const es = {
     titleEm: 'con nuevas oportunidades.',
     paragraph:
       'Trabajamos con productores y aliados de origen para identificar y presentar lotes de café de especialidad a compradores que buscan calidad, información clara y comunicación confiable. Queremos que conozcan a las personas, el conocimiento y el trabajo que hay detrás de cada café.',
-    imageAlt: 'Equipo de la finca entre plantas de café en Marcala',
+    imageAlt: 'Dos personas se dan la mano frente a sacos de café de Honduras',
   },
   gallery: {
     dryingAlt: 'Productora entre cerezas y pergamino secándose al sol frente a la montaña',
@@ -81,10 +110,10 @@ export const es = {
   lots: {
     label: 'Lotes',
     overline: 'Nuestros cafés',
-    title: 'Conozca los lotes de café',
-    titleEm: 'que podemos conversar actualmente con compradores.',
+    title: 'Conozca los lotes',
+    titleEm: 'que podemos conversar.',
     intro:
-      'Los datos varían según productor y lote; compartimos información confirmada y actualizamos la disponibilidad cuando cambia. ¿Le interesa este lote? Contáctenos para consultar disponibilidad actualizada, detalles técnicos y opciones de muestra.',
+      'Compartimos datos confirmados de cada lote y actualizamos la disponibilidad cuando cambia. Contáctenos para detalles técnicos y muestras.',
     inquire: 'Solicitar información del lote',
     score: (score) => `Puntaje ${score}`,
     status: {
@@ -203,7 +232,8 @@ export const es = {
   },
   traceability: {
     label: 'Trazabilidad',
-    title: 'Conozca qué información está documentada.',
+    title: 'Conozca qué información',
+    titleEm: 'está documentada.',
     intro:
       'Para cada lote, la información disponible puede incluir origen, variedad, proceso, cosecha, volumen y datos de calidad cuando estén confirmados. Los registros y documentos que pueden compartirse dependen del lote y de los aliados involucrados. La información de trazabilidad no debe confundirse con una certificación.',
     whatCanBeShown: 'Qué información puede mostrarse',
@@ -219,7 +249,8 @@ export const es = {
   },
   about: {
     label: 'Nosotros',
-    title: 'Un proyecto de café guiado por las relaciones.',
+    title: 'Un proyecto de café',
+    titleEm: 'guiado por las relaciones.',
     intro:
       'Brothers Coffee está construyendo una red que conecta productores de café de especialidad, aliados de origen y compradores internacionales. Nos enfocamos en presentar los lotes con claridad, coordinar conversaciones relevantes y construir relaciones comerciales basadas en transparencia y cumplimiento.',
     experience:
@@ -228,7 +259,8 @@ export const es = {
   },
   producers: {
     label: 'Para productores',
-    title: '¿Produce café de especialidad?',
+    title: '¿Produce café',
+    titleEm: 'de especialidad?',
     intro:
       'Nos interesa conocer productores y lotes con información clara sobre origen, variedad, proceso, cosecha y disponibilidad. Comparta sus datos para conocer su café y conversar sobre si puede encajar con los requisitos de compradores. Presentar un lote no garantiza una compra; procuramos comunicar con claridad los siguientes pasos.',
     howItWorks: 'Cómo funciona',

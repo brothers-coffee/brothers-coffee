@@ -28,16 +28,21 @@ const whatsappLabel = '+504 9569-3232'
 const asset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
-type Page = 'home' | 'approach' | 'producers' | 'traceability' | 'about'
-
 const navItems = [
-  { label: 0, href: '#cafes', page: 'home' as Page },
-  { label: 1, href: '#/producers', page: 'producers' as Page },
-  { label: 2, href: '#/approach', page: 'approach' as Page },
-  { label: 3, href: '#/traceability', page: 'traceability' as Page },
-  { label: 4, href: '#/about', page: 'about' as Page },
-  { label: 5, href: '#contacto', page: 'home' as Page },
-]
+  { label: 0, href: '#cafes' },
+  { label: 1, href: '#productores' },
+  { label: 2, href: '#proceso' },
+  { label: 3, href: '#trazabilidad' },
+  { label: 4, href: '#nosotros' },
+  { label: 5, href: '#contacto' },
+] as const
+
+const legacySections: Record<string, string> = {
+  '#/producers': '#productores',
+  '#/approach': '#proceso',
+  '#/traceability': '#trazabilidad',
+  '#/about': '#nosotros',
+}
 
 const lotOrder = { disponible: 0, consultar: 1, agotado: 2 } as const
 
@@ -62,6 +67,13 @@ const lots = [...(productsJson as Lot[])].sort(
   (a, b) => lotOrder[a.status] - lotOrder[b.status],
 )
 
+const heroMedia = [
+  { src: '/images/slides/hero-02.jpg', position: 'hero-pos-02', primaryHref: '#cafes', secondaryHref: '#origen' },
+  { src: '/images/slides/hero-03.jpg', position: 'hero-pos-03', primaryHref: '#proceso' },
+  { src: '/images/slides/hero-04.jpg', position: 'hero-pos-04', primaryHref: '#productores' },
+  { src: '/images/slides/hero-05.jpg', position: 'hero-pos-05', primaryHref: '#trazabilidad' },
+] as const
+
 const coffeeImages = {
   green: asset('/images/green-coffee.jpg'),
   roasted: asset('/images/cerezas.jpg'),
@@ -72,40 +84,38 @@ const valueIcons = [Globe2, Leaf, Coffee]
 
 const text = (value: Localized, locale: Locale) => value[locale]
 
-function getPageFromHash(): Page {
-  const hash = window.location.hash
-  if (hash.startsWith('#/approach')) return 'approach'
-  if (hash.startsWith('#/producers')) return 'producers'
-  if (hash.startsWith('#/traceability')) return 'traceability'
-  if (hash.startsWith('#/about')) return 'about'
-  return 'home'
-}
-
 function App() {
   const [locale, setLocale] = useState<Locale>(() => prepareLocale())
   const [menuOpen, setMenuOpen] = useState(false)
   const [mailOpened, setMailOpened] = useState(false)
-  const [currentPage, setCurrentPage] = useState<Page>(() => getPageFromHash())
+  const [slide, setSlide] = useState(0)
+  const [slidesPaused, setSlidesPaused] = useState(false)
   const copy = messages[locale]
+  const heroSlide = copy.hero.slides[slide]
+  const heroLink = heroMedia[slide]
 
   useEffect(() => {
     const onPop = () => {
       const next = localeFromLocation()
       applyDocument(next)
       setLocale(next)
-      setCurrentPage(getPageFromHash())
     }
     const onHash = () => {
-      setCurrentPage(getPageFromHash())
-      if (menuOpen) setMenuOpen(false)
+      const next = legacySections[window.location.hash]
+      if (next) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${next}`)
+        document.querySelector(next)?.scrollIntoView()
+      }
+      setMenuOpen(false)
     }
     window.addEventListener('popstate', onPop)
     window.addEventListener('hashchange', onHash)
+    onHash()
     return () => {
       window.removeEventListener('popstate', onPop)
       window.removeEventListener('hashchange', onHash)
     }
-  }, [menuOpen])
+  }, [])
 
   const chooseLocale = (next: Locale) => {
     rememberLocale(next)
@@ -135,14 +145,20 @@ function App() {
 
   const handleProducerContact = () => {
     const fields = copy.producers.fields.map((field, i) => `${i + 1}. ${field}`).join('\n')
-    const message = `${copy.producers.title}\n\n${copy.producers.whatToSend}:\n${fields}`
+    const message = `${copy.producers.title} ${copy.producers.titleEm}\n\n${copy.producers.whatToSend}:\n${fields}`
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank', 'noreferrer')
   }
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-  }, [currentPage])
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (motion.matches || slidesPaused) return
+    const id = window.setInterval(() => {
+      if (document.hidden) return
+      setSlide((current) => (current + 1) % heroMedia.length)
+    }, 6500)
+    return () => window.clearInterval(id)
+  }, [slidesPaused])
 
   return (
     <div className="site-shell">
@@ -190,44 +206,69 @@ function App() {
       </header>
 
       <main>
-        {currentPage === 'home' && (
           <>
-            <section className="hero-section" id="inicio">
-              <img
-                className="hero-image"
-                src={asset('/images/equipo.jpg')}
-                alt={copy.hero.imageAlt}
-              />
+            <section
+              className="hero-section"
+              id="inicio"
+              onMouseEnter={() => setSlidesPaused(true)}
+              onMouseLeave={() => setSlidesPaused(false)}
+              onFocus={() => setSlidesPaused(true)}
+              onBlur={(event) => {
+                const next = event.relatedTarget
+                if (next instanceof Node && event.currentTarget.contains(next)) return
+                setSlidesPaused(false)
+              }}
+            >
+              {heroMedia.map((media, index) => (
+                <img
+                  key={media.src}
+                  className={`hero-image ${media.position}${index === slide ? ' is-active' : ''}`}
+                  src={asset(media.src)}
+                  alt={index === slide ? copy.hero.slides[index].imageAlt : ''}
+                  aria-hidden={index !== slide}
+                />
+              ))}
               <div className="hero-shade" />
-              <div className="hero-content">
-                <p className="hero-kicker"><span />Marcala, Honduras</p>
-                <h1>{copy.hero.title}<br /><em>{copy.hero.titleEm}</em></h1>
-                <p className="hero-intro">{copy.hero.intro}</p>
+              <div className="hero-content" key={slide}>
+                <p className="hero-kicker"><span />{heroSlide.kicker}</p>
+                <h1>{heroSlide.title}<br /><em>{heroSlide.titleEm}</em></h1>
+                <p className="hero-intro">{heroSlide.intro}</p>
                 <div className="hero-actions">
-                  <a className="button button-light" href="#cafes">
-                    {copy.hero.coffees} <ArrowRight size={18} />
+                  <a className="button button-light" href={heroLink.primaryHref}>
+                    {heroSlide.primary} <ArrowRight size={18} />
                   </a>
-                  <a className="text-link light" href="#origen">
-                    {copy.hero.origin} <ArrowDown size={17} />
-                  </a>
+                  {'secondary' in heroSlide && 'secondaryHref' in heroLink && (
+                    <a className="text-link light" href={heroLink.secondaryHref}>
+                      {heroSlide.secondary} <ArrowDown size={17} />
+                    </a>
+                  )}
+                </div>
+                <div className="hero-dots" role="tablist" aria-label={copy.hero.label}>
+                  {copy.hero.slides.map((item, index) => (
+                    <button
+                      key={item.kicker}
+                      type="button"
+                      role="tab"
+                      aria-selected={index === slide}
+                      aria-label={item.kicker}
+                      onClick={() => setSlide(index)}
+                    />
+                  ))}
                 </div>
               </div>
-              <div className="hero-side-note"><span>14°09′ N</span><span>{copy.hero.west}</span></div>
             </section>
 
             <section className="origin-intro section" id="origen">
-              <div className="section-label"><p>{copy.origin.label}</p></div>
-              <div className="origin-content">
-                <div className="origin-copy">
-                  <p className="overline">{copy.origin.overline}</p>
-                  <h2>{copy.origin.title}<br /><em>{copy.origin.titleEm}</em></h2>
-                  <div className="origin-body">
-                    <p>{copy.origin.paragraph}</p>
-                  </div>
+              <div className="origin-copy">
+                <div className="section-label"><p>{copy.origin.label}</p></div>
+                <p className="overline">{copy.origin.overline}</p>
+                <h2>{copy.origin.title}<br /><em>{copy.origin.titleEm}</em></h2>
+                <div className="origin-body">
+                  <p>{copy.origin.paragraph}</p>
                 </div>
-                <div className="origin-image">
-                  <img src={asset('/images/equipo.jpg')} alt={copy.origin.imageAlt} />
-                </div>
+              </div>
+              <div className="origin-image">
+                <img src={asset('/images/our-origin.jpg')} alt={copy.origin.imageAlt} />
               </div>
             </section>
 
@@ -270,8 +311,8 @@ function App() {
             </section>
 
             <section className="coffee-section section" id="cafes">
-              <div className="section-label section-label-light"><p>{copy.coffees.label}</p></div>
               <div className="coffee-heading">
+                <div className="section-label section-label-light"><p>{copy.coffees.label}</p></div>
                 <p className="overline">{copy.coffees.overline}</p>
                 <h2>{copy.coffees.title}<br /><em>{copy.coffees.titleEm}</em></h2>
                 <p>{copy.coffees.intro}</p>
@@ -299,29 +340,74 @@ function App() {
               </div>
             </section>
 
-            <section className="process-section section" id="proceso">
-              <div className="section-label"><p>{copy.process.label}</p></div>
-              <div className="process-content">
-                <div className="process-heading">
-                  <p className="overline">{copy.process.overline}</p>
-                  <h2>{copy.process.title}<br /><em>{copy.process.titleEm}</em></h2>
+            <section className="story-section section" id="productores">
+              <div className="story-layout">
+                <div className="story-copy">
+                  <div className="section-label"><p>{copy.producers.label}</p></div>
+                  <p className="overline">{copy.producers.howItWorks}</p>
+                  <h2>{copy.producers.title}<br /><em>{copy.producers.titleEm}</em></h2>
+                  <p className="story-intro">{copy.producers.intro}</p>
+                  <button className="button button-copper" type="button" onClick={handleProducerContact}>
+                    {copy.producers.cta} <ArrowRight size={18} />
+                  </button>
                 </div>
-                <div className="process-list">
-                  {copy.process.steps.map((step, index) => {
-                    const Icon = processIcons[index]
-                    return (
-                      <article key={step.title}>
-                        <Icon />
-                        <div><h3>{step.title}</h3><p>{step.body}</p></div>
-                      </article>
-                    )
-                  })}
+                <div className="story-panel">
+                  <ol className="story-steps">
+                    {copy.producers.steps.map((step) => (
+                      <li key={step}>{step}</li>
+                    ))}
+                  </ol>
+                  <h3>{copy.producers.whatToSend}</h3>
+                  <ul className="story-checks">
+                    {copy.producers.fields.map((field) => (
+                      <li key={field}><Check size={16} /> {field}</li>
+                    ))}
+                  </ul>
                 </div>
               </div>
+            </section>
+
+            <section className="process-section section" id="proceso">
+              <div className="process-heading">
+                <div className="section-label"><p>{copy.process.label}</p></div>
+                <p className="overline">{copy.process.overline}</p>
+                <h2>{copy.process.title}<br /><em>{copy.process.titleEm}</em></h2>
+                <p className="story-intro">{copy.approach.intro}</p>
+              </div>
+              <div className="process-list">
+                {copy.process.steps.map((step, index) => {
+                  const Icon = processIcons[index]
+                  return (
+                    <article key={step.title}>
+                      <Icon />
+                      <div><h3>{step.title}</h3><p>{step.body}</p></div>
+                    </article>
+                  )
+                })}
+              </div>
               <div className="section-cta">
-                <a className="text-link" href="#/approach">
-                  {copy.approach.label} <ArrowRight size={17} />
+                <a className="text-link" href="#contacto">
+                  {copy.approach.cta} <ArrowRight size={17} />
                 </a>
+              </div>
+            </section>
+
+            <section className="story-section section" id="trazabilidad">
+              <div className="story-layout">
+                <div className="story-copy">
+                  <div className="section-label"><p>{copy.traceability.label}</p></div>
+                  <p className="overline">{copy.traceability.whatCanBeShown}</p>
+                  <h2>{copy.traceability.title}<br /><em>{copy.traceability.titleEm}</em></h2>
+                  <p className="story-intro">{copy.traceability.intro}</p>
+                </div>
+                <div className="story-panel">
+                  <ul className="story-checks">
+                    {copy.traceability.items.map((item) => (
+                      <li key={item}><Check size={16} /> {item}</li>
+                    ))}
+                  </ul>
+                  <p className="story-note">{copy.traceability.disclaimer}</p>
+                </div>
               </div>
             </section>
 
@@ -364,6 +450,23 @@ function App() {
                     </article>
                   )
                 })}
+              </div>
+            </section>
+
+            <section className="origin-intro section" id="nosotros">
+              <div className="origin-copy">
+                <div className="section-label"><p>{copy.about.label}</p></div>
+                <h2>{copy.about.title}<br /><em>{copy.about.titleEm}</em></h2>
+                <div className="origin-body">
+                  <p>{copy.about.intro}</p>
+                  <p>{copy.about.experience}</p>
+                  <a className="button button-copper" href="#contacto">
+                    {copy.about.cta} <ArrowRight size={18} />
+                  </a>
+                </div>
+              </div>
+              <div className="origin-image">
+                <img src={asset('/images/origin.jpg')} alt={copy.gallery.teamAlt} />
               </div>
             </section>
 
@@ -413,101 +516,6 @@ function App() {
               </form>
             </section>
           </>
-        )}
-
-        {currentPage === 'approach' && (
-          <section className="page-section section">
-            <div className="page-header">
-              <div className="section-label"><p>{copy.approach.label}</p></div>
-              <h1>{copy.approach.title}</h1>
-              <p className="page-intro">{copy.approach.intro}</p>
-            </div>
-            <div className="principles-grid">
-              {copy.approach.principles.map((principle) => (
-                <article key={principle.title} className="principle-card">
-                  <h3>{principle.title}</h3>
-                  <p>{principle.body}</p>
-                </article>
-              ))}
-            </div>
-            <div className="page-cta">
-              <a className="button button-copper" href="#contacto">
-                {copy.approach.cta} <ArrowRight size={18} />
-              </a>
-            </div>
-          </section>
-        )}
-
-        {currentPage === 'traceability' && (
-          <section className="page-section section">
-            <div className="page-header">
-              <div className="section-label"><p>{copy.traceability.label}</p></div>
-              <h1>{copy.traceability.title}</h1>
-              <p className="page-intro">{copy.traceability.intro}</p>
-            </div>
-            <div className="content-block">
-              <h2>{copy.traceability.whatCanBeShown}</h2>
-              <ul className="info-list">
-                {copy.traceability.items.map((item) => (
-                  <li key={item}><Check size={18} /> {item}</li>
-                ))}
-              </ul>
-              <p className="disclaimer">{copy.traceability.disclaimer}</p>
-            </div>
-          </section>
-        )}
-
-        {currentPage === 'about' && (
-          <section className="page-section section">
-            <div className="page-header">
-              <div className="section-label"><p>{copy.about.label}</p></div>
-              <h1>{copy.about.title}</h1>
-              <div className="about-content">
-                <img src={asset('/images/origin.jpg')} alt={copy.gallery.teamAlt} className="about-image" />
-                <div>
-                  <p className="page-intro">{copy.about.intro}</p>
-                  <p>{copy.about.experience}</p>
-                </div>
-              </div>
-            </div>
-            <div className="page-cta">
-              <a className="button button-copper" href="#contacto">
-                {copy.about.cta} <ArrowRight size={18} />
-              </a>
-            </div>
-          </section>
-        )}
-
-        {currentPage === 'producers' && (
-          <section className="page-section section">
-            <div className="page-header">
-              <div className="section-label"><p>{copy.producers.label}</p></div>
-              <h1>{copy.producers.title}</h1>
-              <p className="page-intro">{copy.producers.intro}</p>
-            </div>
-            <div className="content-block">
-              <h2>{copy.producers.howItWorks}</h2>
-              <ol className="steps-list">
-                {copy.producers.steps.map((step, index) => (
-                  <li key={index}>{step}</li>
-                ))}
-              </ol>
-            </div>
-            <div className="content-block">
-              <h2>{copy.producers.whatToSend}</h2>
-              <ul className="info-list">
-                {copy.producers.fields.map((field) => (
-                  <li key={field}><Check size={18} /> {field}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="page-cta">
-              <button className="button button-copper" onClick={handleProducerContact}>
-                {copy.producers.cta} <ArrowRight size={18} />
-              </button>
-            </div>
-          </section>
-        )}
       </main>
 
       <footer>

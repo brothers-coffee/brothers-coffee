@@ -150,33 +150,8 @@
     }
   },
   {
-    "id": "san-jacinto-typica-reserve",
-    "name": "San Jacinto, Typica Reserve",
-    "status": "agotado",
-    "region": "Marcala, Honduras",
-    "producer": { "es": "", "en": "" },
-    "variety": "Typica",
-    "process": { "es": "Natural", "en": "Natural" },
-    "altitude": { "es": "", "en": "" },
-    "notes": {
-      "es": "Té de rosa, miel, chocolate oscuro, arándano, frambuesa y uva blanca.",
-      "en": "Rose tea, honey, dark chocolate, blueberry, raspberry, and white grape."
-    },
-    "volume": { "es": "", "en": "" },
-    "score": "86",
-    "summary": {
-      "es": "Finca San Jacinto.",
-      "en": "Finca San Jacinto."
-    },
-    "image": "/images/green-coffee.jpg",
-    "imageAlt": {
-      "es": "Sacos de café listos para su traslado",
-      "en": "Coffee bags ready for transport"
-    }
-  },
-  {
     "id": "next-gen-david-guzman-farm-los-agucates",
-    "name": "David Guzmán, Los Agucates",
+    "name": "Finca Los Aguacates",
     "status": "agotado",
     "region": "Marcala, Honduras",
     "producer": { "es": "David Guzmán", "en": "David Guzmán" },
@@ -190,8 +165,8 @@
     "volume": { "es": "", "en": "" },
     "score": "",
     "summary": {
-      "es": "Finca Los Agucates. Productor de tercera generación, en fermentaciones controladas.",
-      "en": "Finca Los Agucates. A third-generation producer, working with controlled fermentations."
+      "es": "Finca Los Aguacates. Productor de tercera generación, en fermentaciones controladas.",
+      "en": "Finca Los Aguacates. A third-generation producer, working with controlled fermentations."
     },
     "image": "/images/origin.jpg",
     "imageAlt": {

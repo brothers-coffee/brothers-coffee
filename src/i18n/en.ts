@@ -19,14 +19,43 @@ export const en = {
     samples: 'Request samples',
   },
   hero: {
-    imageAlt: 'Three people from the team among coffee trees with ripe cherry',
-    title: 'Specialty coffee,',
-    titleEm: 'built on relationships.',
-    intro:
-      'Brothers Coffee connects specialty coffee producers with international buyers through carefully presented lots, trusted origin partners and transparent communication.',
-    coffees: 'Explore available coffees',
-    origin: 'Talk to our sourcing team',
-    west: '87°58′ W',
+    label: 'Home images',
+    slides: [
+      {
+        kicker: 'Marcala, Honduras',
+        title: 'Specialty coffee,',
+        titleEm: 'built on relationships.',
+        intro: 'We connect specialty producers with international buyers.',
+        imageAlt: 'A producer standing behind coffee cherries drying, among pine trees',
+        primary: 'Explore available coffees',
+        secondary: 'Talk to our sourcing team',
+      },
+      {
+        kicker: 'Our approach',
+        title: 'A clear process,',
+        titleEm: 'built on trust.',
+        intro:
+          'We present each lot with care, coordinate with origin partners, and speak directly with the buyer.',
+        imageAlt: 'A producer holding coffee cherries, with a misty mountain behind her',
+        primary: 'See how we work',
+      },
+      {
+        kicker: 'For producers',
+        title: 'Do you grow',
+        titleEm: 'specialty coffee?',
+        intro: 'Tell us about your lot: origin, variety, process, harvest, and availability.',
+        imageAlt: 'A family of producers among coffee trees, with a child in their arms',
+        primary: 'Present a coffee lot',
+      },
+      {
+        kicker: 'Traceability',
+        title: 'Know what information',
+        titleEm: 'is documented.',
+        intro: 'Origin, variety, process, harvest, and quality, when they are confirmed for that lot.',
+        imageAlt: 'Ripe coffee cherries on the branch, held by a hand',
+        primary: 'See traceability',
+      },
+    ],
   },
   origin: {
     label: 'Our origin',
@@ -35,7 +64,7 @@ export const en = {
     titleEm: 'with opportunity.',
     paragraph:
       'We work with producers and origin partners to identify and present specialty coffee lots for buyers looking for quality, clear information and reliable communication. We want buyers to understand the people, knowledge and work behind each coffee.',
-    imageAlt: 'The farm team among coffee plants in Marcala',
+    imageAlt: 'Two people shaking hands in front of sacks of Honduran coffee',
   },
   gallery: {
     dryingAlt: 'A producer among cherries and parchment drying in the sun, with the mountain behind her',
@@ -80,10 +109,10 @@ export const en = {
   lots: {
     label: 'Lots',
     overline: 'Our coffees',
-    title: 'Explore the coffee lots',
-    titleEm: 'we can currently discuss with buyers.',
+    title: 'Explore the lots',
+    titleEm: 'we can discuss now.',
     intro:
-      'Details vary by producer and lot, so we share confirmed information directly and update availability as it changes. Interested in a lot? Contact us for the latest availability, technical details and sample options.',
+      'We share confirmed details for each lot and update availability as it changes. Contact us for technical information and samples.',
     inquire: 'Request lot information',
     score: (score) => `Score ${score}`,
     status: {
@@ -202,7 +231,8 @@ export const en = {
   },
   traceability: {
     label: 'Traceability',
-    title: 'Know what is documented.',
+    title: 'Know what information',
+    titleEm: 'is documented.',
     intro:
       'For each lot, the information available may include origin, variety, process, harvest, volume and quality details when confirmed. The records and documents that can be shared depend on the lot and the partners involved. Traceability information should not be confused with a certification.',
     whatCanBeShown: 'What information can be shown',
@@ -218,7 +248,8 @@ export const en = {
   },
   about: {
     label: 'About us',
-    title: 'A coffee business shaped by relationships.',
+    title: 'A coffee business',
+    titleEm: 'shaped by relationships.',
     intro:
       'Brothers Coffee is building a network that connects specialty coffee producers, origin partners and international buyers. Our work focuses on presenting lots clearly, coordinating the right conversations and building commercial relationships grounded in transparency and follow-through.',
     experience:
@@ -227,7 +258,8 @@ export const en = {
   },
   producers: {
     label: 'For producers',
-    title: 'Are you a specialty coffee producer?',
+    title: 'Do you grow',
+    titleEm: 'specialty coffee?',
     intro:
       'We are interested in learning about producers and coffee lots with clear information on origin, variety, process, harvest and availability. Share your details so we can understand your coffee and discuss whether there may be a fit with buyer requirements. Submitting a lot does not guarantee a purchase; we aim to communicate the next steps clearly.',
     howItWorks: 'How it works',
