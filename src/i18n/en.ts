@@ -33,11 +33,9 @@ export const en = {
     overline: 'Behind every lot, there are people',
     title: 'Connecting origin',
     titleEm: 'with opportunity.',
-    paragraphs: [
-      'We work with producers and origin partners to identify and present specialty coffee lots for buyers looking for quality, clear information and reliable communication. Each opportunity is discussed according to the details and availability confirmed for that lot.',
-      'We want buyers to understand the people, knowledge and work behind each coffee. Origin stories are shared with the permission of the people featured and with respect for their privacy.',
-      'Share your requirements and let\'s start a focused conversation about available lots, samples and next steps.',
-    ],
+    paragraph:
+      'We work with producers and origin partners to identify and present specialty coffee lots for buyers looking for quality, clear information and reliable communication. We want buyers to understand the people, knowledge and work behind each coffee.',
+    imageAlt: 'The farm team among coffee plants in Marcala',
   },
   gallery: {
     dryingAlt: 'A producer among cherries and parchment drying in the sun, with the mountain behind her',

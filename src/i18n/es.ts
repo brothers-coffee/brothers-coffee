@@ -34,11 +34,9 @@ export const es = {
     overline: 'Detrás de cada lote, hay personas',
     title: 'Conectamos el origen',
     titleEm: 'con nuevas oportunidades.',
-    paragraphs: [
-      'Trabajamos con productores y aliados de origen para identificar y presentar lotes de café de especialidad a compradores que buscan calidad, información clara y comunicación confiable. Cada oportunidad se conversa según los datos y la disponibilidad confirmados para cada lote.',
-      'Queremos que los compradores conozcan a las personas, el conocimiento y el trabajo que hay detrás de cada café. Compartimos historias de origen con autorización de quienes aparecen y respetando su privacidad.',
-      'Cuéntenos qué necesita para su próximo programa de café y conversemos sobre lotes disponibles, muestras y próximos pasos.',
-    ],
+    paragraph:
+      'Trabajamos con productores y aliados de origen para identificar y presentar lotes de café de especialidad a compradores que buscan calidad, información clara y comunicación confiable. Queremos que conozcan a las personas, el conocimiento y el trabajo que hay detrás de cada café.',
+    imageAlt: 'Equipo de la finca entre plantas de café en Marcala',
   },
   gallery: {
     dryingAlt: 'Productora entre cerezas y pergamino secándose al sol frente a la montaña',

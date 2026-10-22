@@ -41,7 +41,8 @@ export type Messages = {
     overline: string
     title: string
     titleEm: string
-    paragraphs: [string, string, string]
+    paragraph: string
+    imageAlt: string
   }
   gallery: {
     dryingAlt: string

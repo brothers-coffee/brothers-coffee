@@ -217,37 +217,55 @@ function App() {
 
             <section className="origin-intro section" id="origen">
               <div className="section-label"><p>{copy.origin.label}</p></div>
-              <div className="origin-copy">
-                <p className="overline">{copy.origin.overline}</p>
-                <h2>{copy.origin.title}<br /><em>{copy.origin.titleEm}</em></h2>
-                <div className="origin-body">
-                  {copy.origin.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <div className="origin-content">
+                <div className="origin-copy">
+                  <p className="overline">{copy.origin.overline}</p>
+                  <h2>{copy.origin.title}<br /><em>{copy.origin.titleEm}</em></h2>
+                  <div className="origin-body">
+                    <p>{copy.origin.paragraph}</p>
+                  </div>
+                </div>
+                <div className="origin-image">
+                  <img src={asset('/images/equipo.jpg')} alt={copy.origin.imageAlt} />
                 </div>
               </div>
             </section>
 
-            <section className="origin-gallery section">
-              <div className="gallery-main">
-                <img src={asset('/images/drying.jpg')} alt={copy.gallery.dryingAlt} />
-                <span className="image-caption">{copy.gallery.dryingCaption}</span>
+            <section className="lots-section section" id="lotes">
+              <div className="section-label"><p>{copy.lots.label}</p></div>
+              <div className="lots-heading">
+                <p className="overline">{copy.lots.overline}</p>
+                <h2>{copy.lots.title}<br /><em>{copy.lots.titleEm}</em></h2>
+                <p>{copy.lots.intro}</p>
               </div>
-              <div className="gallery-secondary">
-                <div className="gallery-stat">
-                  <Mountain size={28} strokeWidth={1.5} />
-                  <p><strong>Marcala</strong><span>{copy.gallery.place}</span></p>
-                </div>
-                <img src={asset('/images/origin.jpg')} alt={copy.gallery.teamAlt} />
-              </div>
-            </section>
-
-            <section className="finca-mosaic" aria-label={copy.gallery.farmLabel}>
-              <figure className="finca-main">
-                <img src={asset('/images/patio.jpg')} alt={copy.gallery.patiosAlt} />
-                <span className="image-caption">{copy.gallery.patiosCaption}</span>
-              </figure>
-              <div className="finca-side">
-                <img src={asset('/images/amanecer.jpg')} alt={copy.gallery.dawnAlt} />
-                <img src={asset('/images/conversacion.jpg')} alt={copy.gallery.conversationAlt} />
+              <div className="lot-grid">
+                {lots.map((lot) => {
+                  const producer = text(lot.producer, locale)
+                  const altitude = text(lot.altitude, locale)
+                  return (
+                    <article key={lot.id} className="lot-card">
+                      <div className="lot-image-wrap">
+                        <img src={asset(lot.image)} alt={text(lot.imageAlt, locale)} />
+                      </div>
+                      <div className="lot-content">
+                        <div className="lot-header">
+                          <div>
+                            <h3 className="lot-name">{lot.name}</h3>
+                            <p className="lot-producer">{producer}</p>
+                          </div>
+                          <span className={`lot-badge lot-${lot.status}`}>{copy.lots.status[lot.status]}</span>
+                        </div>
+                        <div className="lot-details">
+                          {lot.score && <span className="lot-tag">{copy.lots.score(lot.score)}</span>}
+                          {lot.variety && <span className="lot-tag">{lot.variety}</span>}
+                          {text(lot.process, locale) && <span className="lot-tag">{text(lot.process, locale)}</span>}
+                          {altitude && <span className="lot-tag"><Mountain size={14} />{altitude}</span>}
+                        </div>
+                        <a href="#contacto" className="lot-inquire">{copy.lots.inquire} <ArrowRight size={14} /></a>
+                      </div>
+                    </article>
+                  )
+                })}
               </div>
             </section>
 
@@ -278,45 +296,6 @@ function App() {
                     </div>
                   </article>
                 ))}
-              </div>
-            </section>
-
-            <section className="lots-section section" id="lotes">
-              <div className="section-label"><p>{copy.lots.label}</p></div>
-              <div className="lots-heading">
-                <p className="overline">{copy.lots.overline}</p>
-                <h2>{copy.lots.title}<br /><em>{copy.lots.titleEm}</em></h2>
-                <p>{copy.lots.intro}</p>
-              </div>
-              <div className="lot-grid">
-                {lots.map((lot) => {
-                  const producer = text(lot.producer, locale)
-                  const altitude = text(lot.altitude, locale)
-                  const volume = text(lot.volume, locale)
-                  return (
-                    <article className="lot-card" key={lot.id}>
-                      <div className="lot-image">
-                        <img src={asset(lot.image)} alt={text(lot.imageAlt, locale)} />
-                        <span className={`lot-status is-${lot.status}`}>{copy.lots.status[lot.status]}</span>
-                      </div>
-                      <div className="lot-copy">
-                        <p className="card-eyebrow">{text(lot.process, locale)}</p>
-                        <h3>{lot.name}</h3>
-                        <p className="lot-meta">
-                          {[lot.region, lot.variety, altitude].filter(Boolean).join(' · ')}
-                        </p>
-                        <p>{text(lot.notes, locale)}</p>
-                        <p className="lot-summary">{text(lot.summary, locale)}</p>
-                        <div className="lot-facts">
-                          {producer && <span>{producer}</span>}
-                          {lot.score && <span>{copy.lots.score(lot.score)}</span>}
-                          {volume && <span>{volume}</span>}
-                        </div>
-                        <a href="#contacto">{copy.lots.inquire} <ArrowRight size={16} /></a>
-                      </div>
-                    </article>
-                  )
-                })}
               </div>
             </section>
 

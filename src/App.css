@@ -282,8 +282,25 @@ h2 em {
   background: var(--paper);
 }
 
+.origin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
 .origin-copy {
   max-width: 970px;
+}
+
+.origin-image {
+  flex: 0 0 auto;
+}
+
+.origin-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
 }
 
 .overline {
@@ -303,6 +320,19 @@ h2 {
   margin-left: auto;
 }
 
+@media (min-width: 1024px) {
+  .origin-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    align-items: center;
+  }
+  
+  .origin-image {
+    order: -1;
+  }
+}
+
 .origin-body p,
 .coffee-heading > p:last-child,
 .contact-copy > p,
@@ -310,122 +340,6 @@ h2 {
   color: #66726b;
   font-size: 15px;
   line-height: 1.8;
-}
-
-.origin-gallery {
-  display: grid;
-  grid-template-columns: 1.5fr 0.8fr;
-  gap: 22px;
-  padding-top: 0;
-  padding-bottom: 22px;
-  background: var(--paper);
-}
-
-.gallery-main {
-  position: relative;
-  height: 720px;
-  overflow: hidden;
-}
-
-.gallery-main img,
-.gallery-secondary > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery-main img {
-  object-position: center 46%;
-}
-
-.image-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 17px 23px;
-  color: var(--paper);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  background: var(--green);
-}
-
-.gallery-secondary {
-  display: grid;
-  grid-template-rows: 170px 1fr;
-  gap: 22px;
-}
-
-.gallery-secondary > img {
-  object-position: center 38%;
-}
-
-.gallery-stat {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 35px;
-  color: var(--paper);
-  background: var(--copper);
-}
-
-.gallery-stat p {
-  margin: 0;
-}
-
-.finca-mosaic {
-  display: grid;
-  grid-template-columns: 1.35fr 0.85fr;
-  gap: 22px;
-  padding: 0 8vw 130px;
-  background: var(--paper);
-}
-
-.finca-main {
-  position: relative;
-  height: 680px;
-  overflow: hidden;
-  margin: 0;
-}
-
-.finca-side {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 22px;
-}
-
-.finca-mosaic img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.finca-main img {
-  object-position: center 62%;
-}
-
-.finca-side img:first-child {
-  object-position: center 42%;
-}
-
-.finca-side img:last-child {
-  object-position: center 46%;
-}
-
-.gallery-stat strong,
-.gallery-stat span {
-  display: block;
-}
-
-.gallery-stat strong {
-  margin-bottom: 4px;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 30px;
-  font-weight: 600;
-}
-
-.gallery-stat span {
-  font-size: 11px;
-  letter-spacing: 0.1em;
 }
 
 .coffee-section {
@@ -1218,34 +1132,14 @@ footer {
     gap: 14px;
   }
 
-  .origin-gallery {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding-top: 0;
-    padding-bottom: 12px;
+  .origin-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
 
-  .finca-mosaic {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 0 6vw 88px;
-  }
-
-  .finca-main {
-    height: 460px;
-  }
-
-  .finca-side {
-    grid-template-rows: 320px 320px;
-  }
-
-  .gallery-main {
-    height: 530px;
-  }
-
-  .gallery-secondary {
-    grid-template-rows: 130px 480px;
-    gap: 12px;
+  .origin-image {
+    order: 1;
   }
 
   .coffee-heading {
