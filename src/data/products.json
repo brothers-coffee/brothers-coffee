@@ -43,10 +43,10 @@
       "es": "Lote de un grupo de mujeres lencas de La Unión, en Marcala.",
       "en": "A lot from a group of Lenca women in La Unión, Marcala."
     },
-    "image": "/images/drying.jpg",
+    "image": "/images/products/finca_la_union.jpg",
     "imageAlt": {
-      "es": "Cerezas y pergamino en el patio de secado",
-      "en": "Cherries and parchment on the drying patio"
+      "es": "Productora entre cafetos, con una rama de cerezas en la mano",
+      "en": "A producer among coffee trees, holding a branch of cherries"
     }
   },
   {
@@ -93,10 +93,10 @@
       "es": "Finca Los Alpes.",
       "en": "Finca Los Alpes."
     },
-    "image": "/images/cerezas.jpg",
+    "image": "/images/products/finca_hexelito.jpg",
     "imageAlt": {
-      "es": "Cerezas de café madurando en la mata",
-      "en": "Coffee cherries ripening on the tree"
+      "es": "Productor revisa cerezas de café entre las ramas",
+      "en": "A producer inspects coffee cherries among the branches"
     }
   },
   {
@@ -118,10 +118,10 @@
       "es": "Finca Las Flores, lote 1.",
       "en": "Finca Las Flores, lot 1."
     },
-    "image": "/images/conversacion.jpg",
+    "image": "/images/products/finca_natalia_pineda.jpg",
     "imageAlt": {
-      "es": "Cerezas de café extendidas para secar al sol",
-      "en": "Coffee cherries spread out to dry in the sun"
+      "es": "Productora sostiene una rama de café cargada de cerezas",
+      "en": "A producer holds a coffee branch heavy with cherries"
     }
   },
   {
@@ -168,10 +168,10 @@
       "es": "Finca Los Aguacates. Productor de tercera generación, en fermentaciones controladas.",
       "en": "Finca Los Aguacates. A third-generation producer, working with controlled fermentations."
     },
-    "image": "/images/origin.jpg",
+    "image": "/images/products/finca_los_aguacates.png",
     "imageAlt": {
-      "es": "Equipo de la finca entre plantas de café",
-      "en": "The farm team among coffee plants"
+      "es": "Productora sostiene un saco de café Gesha de Finca Los Aguacates",
+      "en": "A producer holds a bag of Gesha coffee from Finca Los Aguacates"
     }
   }
 ]
