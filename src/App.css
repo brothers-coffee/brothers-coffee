@@ -137,8 +137,8 @@
 
 .hero-shade {
   background:
-    linear-gradient(90deg, rgba(7, 25, 18, 0.72) 0%, rgba(7, 25, 18, 0.5) 16%, rgba(7, 25, 18, 0.18) 34%, transparent 50%),
-    linear-gradient(0deg, rgba(7, 25, 18, 0.28), transparent 36%);
+    linear-gradient(90deg, rgba(7, 25, 18, 0.88) 0%, rgba(7, 25, 18, 0.75) 20%, rgba(7, 25, 18, 0.45) 36%, rgba(7, 25, 18, 0.15) 50%, transparent 62%),
+    linear-gradient(0deg, rgba(7, 25, 18, 0.55), transparent 45%);
 }
 
 .hero-content {
@@ -156,6 +156,11 @@
   margin-bottom: 14px;
   font-size: clamp(40px, 4.2vw, 64px);
   line-height: 0.96;
+  text-shadow: 0 1px 12px rgba(7, 25, 18, 0.55);
+}
+
+.hero-content h1 em {
+  color: #edb38a;
 }
 
 .hero-kicker,
@@ -172,6 +177,7 @@
 
 .hero-kicker {
   margin-bottom: 14px;
+  text-shadow: 0 1px 12px rgba(7, 25, 18, 0.55);
 }
 
 .hero-kicker span {
@@ -214,6 +220,7 @@ h2 em {
   font-size: 16px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 12px rgba(7, 25, 18, 0.55);
 }
 
 .hero-actions {
@@ -1217,7 +1224,7 @@ footer {
 
   .hero-shade {
     background:
-      linear-gradient(0deg, rgba(7, 25, 18, 0.78) 0%, rgba(7, 25, 18, 0.4) 24%, rgba(7, 25, 18, 0.1) 42%, transparent 58%);
+      linear-gradient(0deg, rgba(7, 25, 18, 0.92) 0%, rgba(7, 25, 18, 0.78) 28%, rgba(7, 25, 18, 0.45) 46%, transparent 64%);
   }
 
   .hero-content {
