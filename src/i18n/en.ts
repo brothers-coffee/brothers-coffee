@@ -194,9 +194,9 @@ export const en = {
     message: "Tell us what you're looking for",
     messagePlaceholder: 'Market, estimated volume, profile, or process...',
     submit: 'Send inquiry',
-    submitDone: 'Email ready',
-    opened: (_email) => `Thank you for contacting Brothers Coffee. We have received your inquiry and will respond with the relevant information available.`,
-    hint: (email) => `The request opens in your email, addressed to ${email}.`,
+    sending: 'Sending…',
+    success: 'Thank you! We received your message and will contact you soon.',
+    error: (email) => `We couldn't send your message. Please try again or write to us at ${email}.`,
   },
   footer: {
     tagline: 'Brothers Coffee connects specialty coffee producers with international buyers through origin partnerships and transparent communication. At Brothers Coffee, coffee unites us.',

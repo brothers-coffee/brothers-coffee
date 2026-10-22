@@ -173,9 +173,9 @@ export type Messages = {
     message: string
     messagePlaceholder: string
     submit: string
-    submitDone: string
-    opened: (email: string) => string
-    hint: (email: string) => string
+    sending: string
+    success: string
+    error: (email: string) => string
   }
   footer: {
     tagline: string

@@ -87,7 +87,7 @@ const text = (value: Localized, locale: Locale) => value[locale]
 function App() {
   const [locale, setLocale] = useState<Locale>(() => prepareLocale())
   const [menuOpen, setMenuOpen] = useState(false)
-  const [mailOpened, setMailOpened] = useState(false)
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [slide, setSlide] = useState(0)
   const [slidesPaused, setSlidesPaused] = useState(false)
   const copy = messages[locale]
@@ -124,23 +124,56 @@ function App() {
     setLocale(next)
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
+    const form = event.currentTarget
+    const data = new FormData(form)
+    
+    const honeypot = String(data.get('website') || '')
+    if (honeypot) {
+      form.reset()
+      setFormStatus('success')
+      return
+    }
+
+    const name = String(data.get('name') || '')
+    const email = String(data.get('email') || '')
+    if (!name || !email) {
+      return
+    }
+
     const interestValue = String(data.get('interest') || '')
     const interestLabel =
       copy.form.interestOptions.find((option) => option.value === interestValue)?.label ?? interestValue
-    const request = [
-      copy.form.bodyTitle,
-      `${copy.form.name}: ${data.get('name')}`,
-      `${copy.form.company}: ${data.get('company') || '—'}`,
-      `${copy.form.email}: ${data.get('email')}`,
-      `${copy.form.interest}: ${interestLabel}`,
-      `${copy.form.message}: ${data.get('message') || '—'}`,
-    ].join('\n')
-    const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(copy.form.subject)}&body=${encodeURIComponent(request)}`
-    window.location.href = mailto
-    setMailOpened(true)
+
+    setFormStatus('sending')
+
+    const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT ?? 
+      'https://script.google.com/macros/s/AKfycbxzvMPUOS4pEkspal3YseF_wiGXTzuwnqHHeZplw3beviwfo_re6PdQ8zkQF4tpQH5xzA/exec'
+
+    try {
+      await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: name,
+          empresa: String(data.get('company') || ''),
+          email,
+          interes: interestLabel,
+          mensaje: String(data.get('message') || ''),
+          idioma: locale,
+          pagina: window.location.href,
+          website: honeypot,
+        }),
+        mode: 'no-cors',
+      })
+
+      setFormStatus('success')
+      form.reset()
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setFormStatus('error')
+    }
   }
 
   const handleProducerContact = () => {
@@ -507,12 +540,23 @@ function App() {
                   </select>
                 </label>
                 <label>{copy.form.message}<textarea name="message" rows={4} placeholder={copy.form.messagePlaceholder} /></label>
-                <button className="button button-copper" type="submit">
-                  {mailOpened ? <><Check size={18} /> {copy.form.submitDone}</> : <>{copy.form.submit} <ArrowRight size={18} /></>}
+                <input 
+                  name="website" 
+                  type="text" 
+                  tabIndex={-1} 
+                  autoComplete="off" 
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+                />
+                <button className="button button-copper" type="submit" disabled={formStatus === 'sending'}>
+                  {formStatus === 'sending' ? <>{copy.form.sending}</> : <>{copy.form.submit} <ArrowRight size={18} /></>}
                 </button>
-                <small>
-                  {mailOpened ? copy.form.opened(contactEmail) : copy.form.hint(contactEmail)}
-                </small>
+                {formStatus === 'success' && (
+                  <small style={{ color: '#2d5a44' }}>{copy.form.success}</small>
+                )}
+                {formStatus === 'error' && (
+                  <small style={{ color: '#a13939' }}>{copy.form.error(contactEmail)}</small>
+                )}
               </form>
             </section>
           </>
