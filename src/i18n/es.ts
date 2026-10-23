@@ -204,6 +204,7 @@ export const es = {
     explore: 'Explorar',
     destination: 'Destino',
     places: ['Honduras', 'Norteamérica', 'Europa', 'Asia'],
+    developedBy: 'Desarrollado por',
   },
   approach: {
     label: 'Nuestra forma de trabajar',

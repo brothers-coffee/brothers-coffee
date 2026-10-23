@@ -182,6 +182,7 @@ export type Messages = {
     explore: string
     destination: string
     places: [string, string, string, string]
+    developedBy: string
   }
   approach: {
     label: string

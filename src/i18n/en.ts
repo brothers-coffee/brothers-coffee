@@ -203,6 +203,7 @@ export const en = {
     explore: 'Explore',
     destination: 'Destination',
     places: ['Honduras', 'North America', 'Europe', 'Asia'],
+    developedBy: 'Developed by',
   },
   approach: {
     label: 'Our approach',

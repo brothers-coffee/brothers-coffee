@@ -583,7 +583,13 @@ function App() {
             {copy.footer.places.map((place) => <p key={place}>{place}</p>)}
           </div>
         </div>
-        <div className="footer-bottom"><p>© {new Date().getFullYear()} Brothers Coffee</p><p>Marcala, Honduras</p></div>
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} Brothers Coffee</p>
+          <p>Marcala, Honduras</p>
+          <p className="footer-credit">
+            {copy.footer.developedBy} <a href="https://www.laureldev.hn" target="_blank" rel="noopener">LaurelDev</a>
+          </p>
+        </div>
       </footer>
     </div>
   )
